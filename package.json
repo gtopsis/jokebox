@@ -17,7 +17,7 @@
     "lint-staged": {
         "*.{js,json,ts,vue}": [
             "npm run lint",
-            "npm run format"
+            "pretty-quick --staged"
         ]
     },
     "dependencies": {
@@ -46,6 +46,7 @@
         "prettier-plugin-organize-imports": "^4.1.0",
         "prettier-plugin-packagejson": "^2.5.10",
         "prettier-plugin-tailwindcss": "^0.6.11",
+        "pretty-quick": "^4.1.1",
         "typescript": "~5.8.0",
         "vite": "^6.2.1",
         "vite-plugin-vue-devtools": "^7.7.2",
