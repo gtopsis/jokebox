@@ -1,0 +1,32 @@
+@import './base.css';
+@import './tailwind.css';
+
+#app {
+  max-width: 1280px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: var(--font-bellota), var(--font-bellota-text), sans-serif;
+  font-weight: normal;
+  background-color: var(--color-background, --default-color-background);
+  color: var(--color-text, --default-color-text);
+}
+
+button {
+  background-color: var(--color-primary);
+  color: var(--color-text, --default-color-text);
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: var(--color-background, --default-color-background);
+  }
+}
+
+@media (min-width: 1024px) {
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 1rem;
+  }
+}
