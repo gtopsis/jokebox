@@ -16,7 +16,7 @@ const navItems = ref<NavItem[]>([
   <nav class="container mx-auto flex items-center justify-center">
     <routerLink
       :to="{ name: navItems[0].routeName }"
-      class="text-primary hover:border-b-primary border-b-2 border-transparent px-2 py-2 font-bold no-underline transition-[border]"
+      class="text-accent hover:border-b-accent border-b-2 border-transparent px-2 py-2 font-bold no-underline transition-[border]"
     >
       New Jokes
     </routerLink>
@@ -25,12 +25,12 @@ const navItems = ref<NavItem[]>([
       :to="{ name: navItems[0].routeName }"
       class="title mx-4 border-b-2 border-transparent px-4 py-2 font-bold no-underline hover:border-b-2"
     >
-      <span class="text-accent text-3xl font-bold">JokeBox</span>
+      <span class="text-secondary text-3xl font-bold">JokeBox</span>
     </routerLink>
 
     <routerLink
       :to="{ name: navItems[1].routeName }"
-      class="text-primary hover:border-b-primary border-b-2 border-transparent px-2 py-2 font-bold no-underline"
+      class="text-accent hover:border-b-accent border-b-2 border-transparent px-2 py-2 font-bold no-underline"
       >Favorites</routerLink
     >
   </nav>
@@ -39,7 +39,7 @@ const navItems = ref<NavItem[]>([
 <style lang="css" scoped>
 nav a:not(.title).router-link-active {
   width: auto;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-accent);
 }
 
 nav a:hover {

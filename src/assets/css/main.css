@@ -12,6 +12,10 @@
   color: var(--color-text, --default-color-text);
 }
 
+body {
+  background-color: var(--color-background-light, --default-color-background);
+}
+
 button {
   background-color: var(--color-primary);
   color: var(--color-text, --default-color-text);

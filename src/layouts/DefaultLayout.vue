@@ -3,8 +3,8 @@ import TheTopBar from '../components/TheTopBar.vue'
 </script>
 
 <template>
-  <div class="flex h-screen w-full flex-col">
-    <header class="sticky w-full">
+  <div class="relative flex h-screen w-full flex-col">
+    <header class="bg-background-light sticky top-0 w-full">
       <slot name="header">
         <TheTopBar />
       </slot>
