@@ -9,43 +9,50 @@
   --font-bellota: 'Bellota', sans-serif;
   --font-bellota-text: 'Bellota Text', sans-serif;
 
-  --color-background: #f9f9f9;
-  --color-background-alt: #ffffff;
+  --color-primary: #f9f9d7;
+  --color-primary-light: #fbfbe6;
+  --color-primary-dark: #d4d474;
+
+  --color-secondary: #a3e0ad;
+  --color-secondary-light: #b8f3b7;
+  --color-secondary-dark: #7dcd8b;
+
+  --color-accent: #ada3e0;
+  --color-accent-light: #c1b9f1;
+  --color-accent-dark: #7f7bc0;
+
   --color-text-primary: #333333;
   --color-text-secondary: #666666;
-  --color-text-accent: #4c9feb;
+  --color-text-light: #ffffff;
 
-  --color-primary: #f7dc6f;
-  --color-primary-tint: #ffff99;
-  --color-primary-shade: #666600;
+  --color-background-light: #fbfbe6;
+  --color-background-dark: #d4d474;
 
-  --color-secondary: #87ceeb;
-  --color-secondary-tint: #add8e6;
-  --color-secondary-shade: #03055b;
-
-  --color-accent: #ff69b4;
-  --color-accent-tint: #ffc0cb;
-  --color-accent-shade: #660033;
+  --color-border: #dddddd;
 }
 
 @layer theme {
   .dark {
-    --color-background: #1a1d23;
-    --color-background-alt: #2f4f4f;
-    --color-text-primary: #ffffff;
-    --color-text-secondary: #b2b2b2;
-    --color-text-accent: #66d9ef;
+    --font-bellota: 'Bellota', sans-serif;
+    --font-bellota-text: 'Bellota Text', sans-serif;
 
-    --color-primary: #3b82f6;
-    --color-primary-tint: #60a5fa;
-    --color-primary-shade: #2563eb;
+    --color-primary: #f9f9d7;
+    --color-primary-light: #fbfbe6;
+    --color-primary-dark: #d4d474;
 
-    --color-secondary: #34c759;
-    --color-secondary-tint: #8bc34a;
-    --color-secondary-shade: #1a3d00;
+    --color-secondary: #a3e0ad;
+    --color-secondary-light: #b8f3b7;
+    --color-secondary-dark: #7dcd8b;
 
-    --color-accent: #ff9900;
-    --color-accent-tint: #ffd7be;
-    --color-accent-shade: #663300;
+    --color-accent: #ada3e0;
+    --color-accent-light: #c1b9f1;
+    --color-accent-dark: #7f7bc0;
+
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #b3b3b3;
+    --color-text-light: #121212;
+
+    --color-background-light: #121212;
+    --color-background-dark: #1e1e1e;
   }
 }
