@@ -3,7 +3,8 @@
 
 @font-face {
   font-family: 'Bellota';
-  src: url('@/assets/fonts/Bellota.ttf') format('ttf');
+  src: url('@/assets/fonts/Bellota.woff2') format('woff2')
+    url('@/assets/fonts/Bellota.ttf') format('ttf');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -11,7 +12,8 @@
 
 @font-face {
   font-family: 'Bellota_Text';
-  src: url('@/assets/fonts/BellotaText.ttf') format('ttf');
+  src: url('@/assets/fonts/BellotaText.woff2') format('woff2')
+    url('@/assets/fonts/BellotaText.ttf') format('ttf');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -32,7 +34,12 @@ body {
   font-family: var(--font-bellota-text), sans-serif;
 }
 
-h1,h2,h3,h4,h5,h6, a{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
   font-family: var(--font-bellota), sans-serif;
 }
 
