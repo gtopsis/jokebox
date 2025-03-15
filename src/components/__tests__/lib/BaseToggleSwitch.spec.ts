@@ -1,4 +1,4 @@
-// src/components/__tests__/BaseToggleSwitch.spec.ts
+import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/vue'
 import { describe, expect, it } from 'vitest'
 import BaseToggleSwitch from '../../lib/BaseToggleSwitch.vue'

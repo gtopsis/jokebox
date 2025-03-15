@@ -51,7 +51,7 @@ describe('TheTopBar', () => {
         plugins: [router],
       },
     })
-    const link = await screen.findByRole('link', { name: 'Favorites' })
+    const link = screen.getByRole('link', { name: 'Favorites' })
 
     await fireEvent.click(link)
     await router.isReady()
