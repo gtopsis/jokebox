@@ -1,8 +1,12 @@
-import pluginVue from 'eslint-plugin-vue'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVitest from '@vitest/eslint-plugin'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
-import pluginVueA11y from "eslint-plugin-vuejs-accessibility";
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+} from '@vue/eslint-config-typescript'
+import pluginTestingLibrary from 'eslint-plugin-testing-library'
+import pluginVue from 'eslint-plugin-vue'
+import pluginVueA11y from 'eslint-plugin-vuejs-accessibility'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -22,11 +26,15 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  ...pluginVueA11y.configs["flat/recommended"],
+  ...pluginVueA11y.configs['flat/recommended'],
 
+  {
+    ...pluginTestingLibrary.configs['flat/vue'],
+    files: ['**/__tests__/*'],
+  },
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
-  skipFormatting,
+  skipFormatting
 )
