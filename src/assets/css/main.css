@@ -1,12 +1,27 @@
 @import './base.css';
 @import './tailwind.css';
 
+@font-face {
+  font-family: 'Bellota';
+  src: url('@/assets/fonts/Bellota.ttf') format('ttf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bellota_Text';
+  src: url('@/assets/fonts/BellotaText.ttf') format('ttf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
 #app {
   max-width: 1280px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 1rem;
-  font-family: var(--font-bellota), var(--font-bellota-text), sans-serif;
   font-weight: normal;
   background-color: var(--color-background-light, --default-color-background);
   color: var(--color-text, --default-color-text);
@@ -14,11 +29,11 @@
 
 body {
   background-color: var(--color-background-light, --default-color-background);
+  font-family: var(--font-bellota-text), sans-serif;
 }
 
-button {
-  background-color: var(--color-primary);
-  color: var(--color-text, --default-color-text);
+h1,h2,h3,h4,h5,h6, a{
+  font-family: var(--font-bellota), sans-serif;
 }
 
 @media (min-width: 1024px) {

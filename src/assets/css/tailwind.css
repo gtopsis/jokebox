@@ -1,13 +1,11 @@
-@import url('../fonts/Bellota-Regular.ttf');
-@import url('../fonts/BellotaText-Regular.ttf');
 @import 'tailwindcss';
 
 /* TODO: for testing purposes, remove this before release */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-bellota: 'Bellota', sans-serif;
-  --font-bellota-text: 'Bellota Text', sans-serif;
+  --font-bellota: 'Bellota';
+  --font-bellota-text: 'Bellota Text';
 
   --color-primary: #f9f9d7;
   --color-primary-light: #fbfbe6;
@@ -33,9 +31,6 @@
 
 @layer theme {
   .dark {
-    --font-bellota: 'Bellota', sans-serif;
-    --font-bellota-text: 'Bellota Text', sans-serif;
-
     --color-primary: #f9f9d7;
     --color-primary-light: #fbfbe6;
     --color-primary-dark: #d4d474;
