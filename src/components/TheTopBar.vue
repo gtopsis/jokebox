@@ -25,7 +25,7 @@ const navItems = ref<NavItem[]>([
       :to="{ name: navItems[0].routeName }"
       class="title mx-4 border-b-2 border-transparent px-4 py-2 font-bold no-underline hover:border-b-2"
     >
-      <span class="text-secondary text-3xl font-bold">JokeBox</span>
+      <strong class="font-bellota text-secondary text-3xl">JokeBox</strong>
     </routerLink>
 
     <routerLink
