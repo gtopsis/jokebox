@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { formatDistanceToNow } from 'date-fns'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import BaseButton from './lib/BaseButton.vue'
 import BaseToggle from './lib/BaseToggleSwitch.vue'
 
@@ -19,18 +18,6 @@ const fetchJokesColors = { background: 'var(--color-accent)' }
 const onButtonClicked = (event: Event) => {
   emit('onJobsFetchRequested', event)
 }
-
-const numberOfJokes = ref(0)
-const jokesFetchedLastDate = ref<string | null>(null)
-
-const getUpdatedTimeAgoText = computed(() => {
-  return jokesFetchedLastDate.value
-    ? numberOfJokes.value +
-        ' jokes has been fetched ' +
-        formatDistanceToNow(jokesFetchedLastDate.value) +
-        ' ago'
-    : 'No Jokes yet :('
-})
 </script>
 
 <template>
@@ -50,10 +37,6 @@ const getUpdatedTimeAgoText = computed(() => {
         Get new jokes
       </BaseButton>
     </div>
-
-    <p class="mt-4 mb-0 block w-auto text-xs text-black">
-      {{ getUpdatedTimeAgoText }}
-    </p>
   </div>
 </template>
 
