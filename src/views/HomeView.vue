@@ -8,10 +8,12 @@ import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const jokeType = 'random'
-const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 25
-const apiUrl = `${import.meta.env.VITE_API_BASE_URL}${jokeType}/${numberOfJokes}`
-const { fetchData, isFetching, error, data } = useFetch<Joke[]>(apiUrl)
+const defaultJokeType = 'random'
+const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
+
+const jokeType = ref(defaultJokeType)
+
+const { fetchData, isFetching, error, data } = useFetch<Joke[]>()
 
 const isLoading = computed(() => isFetching.value)
 const fetchError = computed<Error | undefined>(() =>
@@ -22,7 +24,12 @@ const fetchError = computed<Error | undefined>(() =>
 const jokes = computed<Joke[] | null>(() => data.value)
 
 const fetchJokes = async () => {
-  await fetchData()
+  const formattedNumberOfJokes =
+    jokeType.value === 'programming' ? 'ten' : numberOfJokes
+
+  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}${jokeType.value}/${formattedNumberOfJokes}`
+
+  await fetchData(apiUrl)
 
   jokesFetchedLastDate.value = new Date().toISOString()
 }
@@ -40,7 +47,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <GetJokesToolbar @onJobsFetchRequested="fetchJokes" />
+  <GetJokesToolbar
+    class="mt-6"
+    @onJobsFetchRequest="fetchJokes"
+    @onFilterUpdate="
+      (value: boolean) => (jokeType = value ? 'programming' : 'random')
+    "
+  />
 
   <div class="text-center">
     <span class="mx-2 mt-4 mb-0 block text-xs text-[#333]">
