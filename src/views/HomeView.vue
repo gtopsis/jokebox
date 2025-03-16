@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
-import { useFetch } from '@/composables/useFetch'
+import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { Joke } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
@@ -8,32 +8,19 @@ import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const { fetchData, isFetching, error, data } = useFetch<Joke[]>()
+const { getNewJokes, isLoading, fetchError, data, jokesFetchedLastDate } =
+  useJokeCollection()
 
-const isLoading = computed(() => isFetching.value)
-const fetchError = computed<Error | undefined>(() =>
-  error.value
-    ? new Error('Failed to fetch new jokes. Please try again!')
-    : undefined
-)
 const jokes = computed<Joke[] | null>(() => data.value)
 
 const defaultJokeType = 'random'
-const jokeType = ref(defaultJokeType)
+const jokeType = ref<'programming' | 'random'>(defaultJokeType)
 const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
 
 const fetchJokes = async () => {
-  const formattedNumberOfJokes =
-    jokeType.value === 'programming' ? 'ten' : numberOfJokes
-
-  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/${jokeType.value}/${formattedNumberOfJokes}`
-
-  await fetchData(apiUrl)
-
-  jokesFetchedLastDate.value = new Date().toISOString()
+  await getNewJokes(jokeType.value, numberOfJokes)
 }
 
-const jokesFetchedLastDate = ref<string | null>(null)
 const jokesFetchedTimeAgoText = computed(() =>
   jokesFetchedLastDate.value
     ? `${numberOfJokes} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
