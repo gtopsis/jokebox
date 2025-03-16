@@ -12,6 +12,7 @@ interface Props {
   type?: ButtonType
   name?: string
   colors?: Colors
+  title?: string
 }
 
 const {
@@ -27,6 +28,7 @@ const emit = defineEmits<{ (e: 'click', event: Event): void }>()
   <button
     :id="id"
     class="inline-block cursor-pointer text-center text-sm font-semibold shadow-[0_.2rem_0.3rem_-.25rem_black] transition-transform duration-250 hover:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-700 focus-visible:ring-offset-2 focus-visible:outline-none active:translate-y-[1px] active:shadow-none"
+    :title="title"
     :style="{
       backgroundColor: colors?.background ?? 'var(--color-zinc-900)',
       color: colors?.text ?? 'var(--color-white)',
