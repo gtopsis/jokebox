@@ -1,39 +1,41 @@
 import { ref, type Ref } from 'vue'
 
-interface UseFetchResult<ResultDataType> {
+export interface UseFetchResponse<ResultDataType> {
   data: Ref<ResultDataType | null>
-  loading: Ref<boolean>
+  isFetching: Ref<boolean>
   error: Ref<Error | null>
   fetchData: () => Promise<void>
 }
 
-export const useFetch = async <T = Record<string, unknown>>(
+export const useFetch = <T = Record<string, unknown>>(
   apiUrl: string,
   options: RequestInit = { method: 'GET' }
-): Promise<UseFetchResult<T>> => {
-  const data = ref<UseFetchResult<T>['data'] | null>(null)
-  const loading = ref(false)
+): UseFetchResponse<T> => {
+  const data: Ref<T | null> = ref(null)
+  const isFetching = ref(false)
   const error = ref<Error | null>(null)
 
   const fetchData = async (): Promise<void> => {
-    try {
-      loading.value = true
-      error.value = null
+    isFetching.value = true
+    error.value = null
 
+    try {
       const response = await fetch(apiUrl, options)
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`)
+        throw new Error(
+          `Error: Failed to fetch data. Status: ${response.statusText}`
+        )
       }
 
-      const data = await response.json()
-      data.value = data as T
+      const fetchedData = await response.json()
+      data.value = fetchedData as T
     } catch (err: unknown) {
       error.value = err as Error
     } finally {
-      loading.value = false
+      isFetching.value = false
     }
   }
 
-  return { fetchData, data, loading, error }
+  return { fetchData, data, isFetching, error }
 }
