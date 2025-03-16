@@ -25,6 +25,10 @@ const saveButtonColors = computed(() => ({
   border: 'var(--color-zinc-900)',
 }))
 
+const saveButtonTitle = computed(() =>
+  isSaved.value ? 'Remove from favorites' : 'Save to Favorites'
+)
+
 const saveJoke = () => {
   emit('onSave', !isSaved.value)
 }
@@ -82,7 +86,7 @@ watch(
         class="transition-colors duration-300 ease-in-out"
         type="icon"
         :colors="saveButtonColors"
-        :title="isSaved ? 'Remove from Favorites' : 'Save to Favorites'"
+        :title="saveButtonTitle"
         @click="saveJoke"
       >
         <IconHeart :color="isSaved ? 'red' : 'black'" />
