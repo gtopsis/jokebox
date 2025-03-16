@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import BaseButton from './lib/BaseButton.vue'
 import BaseToggle from './lib/BaseToggleSwitch.vue'
 
-const emit = defineEmits<{ (e: 'onJobsFetchRequested', event: Event): void }>()
+const emit = defineEmits<{
+  (e: 'onJobsFetchRequest', event: Event): void
+  (e: 'onFilterUpdate', value: boolean): void
+}>()
 
 const inputToggleSwitchLabel = ref('Programming jokes only')
-const inputToggleSwitchValue = ref(true)
+const inputToggleSwitchValue = ref(false)
+watch(inputToggleSwitchValue, (newValue: boolean) => {
+  emit('onFilterUpdate', newValue)
+})
 
 const inputToggleSwitchColors = {
   thumb: 'var(--color-accent)',
@@ -16,13 +22,13 @@ const inputToggleSwitchColors = {
 const fetchJokesColors = { background: 'var(--color-accent)' }
 
 const onButtonClicked = (event: Event) => {
-  emit('onJobsFetchRequested', event)
+  emit('onJobsFetchRequest', event)
 }
 </script>
 
 <template>
   <div class="container mx-auto flex flex-col items-center">
-    <div class="flex w-full justify-center gap-4 pt-4 align-middle">
+    <div class="flex w-full justify-center gap-4 align-middle">
       <BaseToggle
         v-model="inputToggleSwitchValue"
         class="mr-4 block"
