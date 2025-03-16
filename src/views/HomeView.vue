@@ -8,11 +8,6 @@ import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const defaultJokeType = 'random'
-const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
-
-const jokeType = ref(defaultJokeType)
-
 const { fetchData, isFetching, error, data } = useFetch<Joke[]>()
 
 const isLoading = computed(() => isFetching.value)
@@ -23,11 +18,15 @@ const fetchError = computed<Error | undefined>(() =>
 )
 const jokes = computed<Joke[] | null>(() => data.value)
 
+const defaultJokeType = 'random'
+const jokeType = ref(defaultJokeType)
+const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
+
 const fetchJokes = async () => {
   const formattedNumberOfJokes =
     jokeType.value === 'programming' ? 'ten' : numberOfJokes
 
-  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}${jokeType.value}/${formattedNumberOfJokes}`
+  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/${jokeType.value}/${formattedNumberOfJokes}`
 
   await fetchData(apiUrl)
 
@@ -35,11 +34,15 @@ const fetchJokes = async () => {
 }
 
 const jokesFetchedLastDate = ref<string | null>(null)
-const jokesFetchedTimeAgoText = computed(() => {
-  return jokesFetchedLastDate.value
+const jokesFetchedTimeAgoText = computed(() =>
+  jokesFetchedLastDate.value
     ? `${numberOfJokes} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
     : 'No Jokes yet :('
-})
+)
+
+const onFilterUpdate = (value: boolean) => {
+  jokeType.value = value ? 'programming' : 'random'
+}
 
 onMounted(async () => {
   await fetchJokes()
@@ -50,9 +53,7 @@ onMounted(async () => {
   <GetJokesToolbar
     class="mt-6"
     @onJobsFetchRequest="fetchJokes"
-    @onFilterUpdate="
-      (value: boolean) => (jokeType = value ? 'programming' : 'random')
-    "
+    @onFilterUpdate="onFilterUpdate"
   />
 
   <div class="text-center">
