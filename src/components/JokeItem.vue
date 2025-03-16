@@ -70,18 +70,19 @@ watch(
           leave-from-class="opacity-100"
           leave-to-class="transform opacity-0"
         >
-          <span v-if="isPunchlineVisible" class="">
+          <span v-if="isPunchlineVisible">
             {{ joke.punchline }}
           </span>
         </transition>
       </p>
     </div>
 
-    <div class="flex-shrink-0">
+    <div v-if="isPunchlineVisible" class="min-w-[35px] flex-shrink-0">
       <BaseButton
         class="transition-colors duration-300 ease-in-out"
         type="icon"
         :colors="saveButtonColors"
+        :title="isSaved ? 'Remove from Favorites' : 'Save to Favorites'"
         @click="saveJoke"
       >
         <IconHeart :color="isSaved ? 'red' : 'black'" />
