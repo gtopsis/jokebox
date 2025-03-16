@@ -2,9 +2,9 @@ import type { Joke } from '@/types/joke'
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/vue'
 import { describe, expect, it } from 'vitest'
-import JokeItem from '../JokeItem.vue'
+import JokeCollectionItem from '../JokeCollectionItem.vue'
 
-describe('JokeItem', () => {
+describe('JokeCollectionItem', () => {
   const joke: Joke = {
     id: 1,
     punchline: 'Punchline',
@@ -13,20 +13,20 @@ describe('JokeItem', () => {
   }
 
   it('should render with default props', () => {
-    render(JokeItem, { props: { joke } })
+    render(JokeCollectionItem, { props: { joke } })
 
     expect(screen.getByText('Show')).toBeInTheDocument()
   })
 
   it('should render with hidden punchline and save button when visiblePunchline prop equals to false', () => {
-    render(JokeItem, { props: { joke, visiblePunchline: false } })
+    render(JokeCollectionItem, { props: { joke, visiblePunchline: false } })
 
     expect(screen.queryByText('Punchline')).not.toBeInTheDocument()
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('should render with visible punchline and save button when visiblePunchline prop equals to true', () => {
-    render(JokeItem, { props: { joke, visiblePunchline: true } })
+    render(JokeCollectionItem, { props: { joke, visiblePunchline: true } })
 
     expect(screen.getByRole('button')).toHaveAttribute(
       'aria-label',
@@ -35,7 +35,7 @@ describe('JokeItem', () => {
   })
 
   it("should emit 'onSave' event when punchline is visible and save button is clicked", async () => {
-    const { emitted } = render(JokeItem, {
+    const { emitted } = render(JokeCollectionItem, {
       props: { joke, visiblePunchline: true },
     })
 
@@ -45,7 +45,7 @@ describe('JokeItem', () => {
   })
 
   it("should emit 'onPunchlineRevealed' event when punchline is not visible and link is clicked", async () => {
-    const { emitted } = render(JokeItem, {
+    const { emitted } = render(JokeCollectionItem, {
       props: { joke, visiblePunchline: false, saved: false },
     })
 

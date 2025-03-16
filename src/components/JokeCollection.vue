@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ExtendedJoke, Joke } from '@/types/joke'
 import { computed } from 'vue'
-import JokeItem from './JokeItem.vue'
+import JokeCollectionItem from './JokeCollectionItem.vue'
 
 interface Props {
   jokes: Joke[]
@@ -28,7 +28,7 @@ const updateJokeSavedStatus = (joke: ExtendedJoke, isSaved: boolean) => {
 
 <template>
   <TransitionGroup name="joke-collection">
-    <JokeItem
+    <JokeCollectionItem
       v-for="joke in extendedJokesCollection"
       :key="joke.id"
       class="mt-2"
