@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { constants } from '@/appConfig'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { Joke } from '@/types/joke'
@@ -18,12 +17,12 @@ const defaultJokeType = 'random'
 const jokeType = ref<'programming' | 'random'>(defaultJokeType)
 
 const fetchJokes = async () => {
-  await getNewJokes(jokeType.value, constants.NUMBER_OF_JOKES)
+  await getNewJokes(jokeType.value, appConfig.NUMBER_OF_JOKES)
 }
 
 const jokesFetchedTimeAgoText = computed(() =>
   jokesFetchedLastDate.value
-    ? `${constants.NUMBER_OF_JOKES} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
+    ? `${appConfig.NUMBER_OF_JOKES} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
     : 'No Jokes yet :('
 )
 

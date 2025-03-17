@@ -1,4 +1,4 @@
-import { constants } from '@/appConfig'
+import { appConfig } from '@/appConfig'
 import type { Joke, JokeExtended } from '@/types/joke'
 import { loadStoredItems, storeItem } from '@/utils/localStorage'
 import { computed, ref } from 'vue'
@@ -22,7 +22,7 @@ export const useJokeCollection = () => {
     const formattedNumberOfJokes =
       type === 'programming' ? 'ten' : numberOfJokes
 
-    const apiUrl = `${constants.API_BASE_URL}/${type}/${formattedNumberOfJokes}`
+    const apiUrl = `${appConfig.API_BASE_URL}/${type}/${formattedNumberOfJokes}`
 
     await fetchData(apiUrl)
 
@@ -30,16 +30,16 @@ export const useJokeCollection = () => {
   }
 
   const favoriteJokes = ref<JokeExtended[]>(
-    loadStoredItems<JokeExtended[]>(constants.STORE_KEY_FAVORITES) || []
+    loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
   )
 
   const loadFavoriteJokes = () => {
     favoriteJokes.value =
-      loadStoredItems<JokeExtended[]>(constants.STORE_KEY_FAVORITES) || []
+      loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
   }
 
   const saveFavoriteJokes = () => {
-    storeItem(constants.STORE_KEY_FAVORITES, favoriteJokes.value)
+    storeItem(appConfig.STORE_KEY_FAVORITES, favoriteJokes.value)
   }
 
   const addJokeToFavorites = (joke: JokeExtended) => {

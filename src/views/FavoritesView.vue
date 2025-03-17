@@ -2,13 +2,12 @@
 import type { Joke } from '@/types/joke'
 import { loadStoredItems } from '@/utils/localStorage'
 import { onMounted, ref } from 'vue'
-import { constants } from '../appConfig'
 import JokeCollection from '../components/JokeCollection.vue'
 
 const jokes = ref<Joke[] | null>([])
 
 onMounted(async () => {
-  jokes.value = loadStoredItems<Joke[]>(constants.STORE_KEY_FAVORITES) || []
+  jokes.value = loadStoredItems<Joke[]>(appConfig.STORE_KEY_FAVORITES) || []
 })
 </script>
 
