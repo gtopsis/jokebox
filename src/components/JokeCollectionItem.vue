@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { ExtendedJoke } from '@/types/joke'
+import type { JokeExtended } from '@/types/joke'
 import { computed, ref, watch } from 'vue'
 import IconHeart from './icons/IconHeart.vue'
 import BaseButton from './lib/BaseButton.vue'
 
 interface Props {
-  joke: ExtendedJoke
+  joke: JokeExtended
   visiblePunchline?: boolean
   saved?: boolean
 }

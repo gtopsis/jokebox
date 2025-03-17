@@ -1,5 +1,5 @@
 import { constants } from '@/appConfig'
-import type { ExtendedJoke, Joke } from '@/types/joke'
+import type { Joke, JokeExtended } from '@/types/joke'
 import { loadStoredItems, storeItem } from '@/utils/localStorage'
 import { computed, ref } from 'vue'
 import { useFetch } from './useFetch'
@@ -29,20 +29,20 @@ export const useJokeCollection = () => {
     jokesFetchedLastDate.value = new Date().toISOString()
   }
 
-  const favoriteJokes = ref<ExtendedJoke[]>(
-    loadStoredItems<ExtendedJoke[]>(constants.STORE_KEY_FAVORITES) || []
+  const favoriteJokes = ref<JokeExtended[]>(
+    loadStoredItems<JokeExtended[]>(constants.STORE_KEY_FAVORITES) || []
   )
 
   const loadFavoriteJokes = () => {
     favoriteJokes.value =
-      loadStoredItems<ExtendedJoke[]>(constants.STORE_KEY_FAVORITES) || []
+      loadStoredItems<JokeExtended[]>(constants.STORE_KEY_FAVORITES) || []
   }
 
   const saveFavoriteJokes = () => {
     storeItem(constants.STORE_KEY_FAVORITES, favoriteJokes.value)
   }
 
-  const addJokeToFavorites = (joke: ExtendedJoke) => {
+  const addJokeToFavorites = (joke: JokeExtended) => {
     const found = favoriteJokes.value?.find((j) => j.id === joke.id)
     if (!found) {
       favoriteJokes.value.push(joke)

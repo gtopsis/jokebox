@@ -7,7 +7,7 @@ export interface Joke {
   punchline: string
 }
 
-export interface ExtendedJoke extends Joke {
+export interface JokeExtended extends Joke {
   saved?: boolean
   visiblePunchline?: boolean
 }
