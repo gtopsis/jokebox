@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { appConfig } from '@/appConfig'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { Joke } from '@/types/joke'
@@ -8,8 +9,15 @@ import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const { getNewJokes, isLoading, fetchError, data, jokesFetchedLastDate } =
-  useJokeCollection()
+const {
+  getNewJokes,
+  isLoading,
+  fetchError,
+  data,
+  jokesFetchedLastDate,
+  loadNewJokes,
+  saveNewJokes,
+} = useJokeCollection()
 
 const jokes = computed<Joke[] | null>(() => data.value)
 
@@ -18,6 +26,7 @@ const jokeType = ref<'programming' | 'random'>(defaultJokeType)
 
 const fetchJokes = async () => {
   await getNewJokes(jokeType.value, appConfig.NUMBER_OF_JOKES)
+  saveNewJokes()
 }
 
 const jokesFetchedTimeAgoText = computed(() =>
@@ -31,7 +40,10 @@ const onFilterUpdate = (value: boolean) => {
 }
 
 onMounted(async () => {
-  await fetchJokes()
+  loadNewJokes()
+  if (data.value === null) {
+    await fetchJokes()
+  }
 })
 </script>
 

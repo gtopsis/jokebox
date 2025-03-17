@@ -42,6 +42,14 @@ export const useJokeCollection = () => {
     storeItem(appConfig.STORE_KEY_FAVORITES, favoriteJokes.value)
   }
 
+  const loadNewJokes = () => {
+    data.value = loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_NEW_JOKES)
+  }
+
+  const saveNewJokes = () => {
+    storeItem(appConfig.STORE_KEY_NEW_JOKES, data.value)
+  }
+
   const addJokeToFavorites = (joke: JokeExtended) => {
     const found = favoriteJokes.value?.find((j) => j.id === joke.id)
     if (!found) {
@@ -64,5 +72,7 @@ export const useJokeCollection = () => {
     loadFavoriteJokes,
     addJokeToFavorites,
     removeJokeFromFavorites,
+    loadNewJokes,
+    saveNewJokes,
   }
 }
