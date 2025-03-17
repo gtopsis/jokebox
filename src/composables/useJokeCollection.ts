@@ -27,6 +27,7 @@ export const useJokeCollection = () => {
     await fetchData(apiUrl)
 
     jokesFetchedLastDate.value = new Date().toISOString()
+    storeItem('jokesFetchedLastDate', jokesFetchedLastDate.value)
   }
 
   const favoriteJokes = ref<JokeExtended[]>(
@@ -44,6 +45,7 @@ export const useJokeCollection = () => {
 
   const loadNewJokes = () => {
     data.value = loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_NEW_JOKES)
+    jokesFetchedLastDate.value = loadStoredItems<string>('jokesFetchedLastDate')
   }
 
   const saveNewJokes = () => {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { appConfig } from '@/appConfig'
 import type { Joke } from '@/types/joke'
 import { loadStoredItems } from '@/utils/localStorage'
 import { onMounted, ref } from 'vue'
