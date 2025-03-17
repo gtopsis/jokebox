@@ -2,8 +2,8 @@
 import type { Joke } from '@/types/joke'
 import { loadStoredItems } from '@/utils/localStorage'
 import { onMounted, ref } from 'vue'
+import { constants } from '../appConfig'
 import JokeCollection from '../components/JokeCollection.vue'
-import { constants } from '../constants'
 
 const jokes = ref<Joke[] | null>([])
 

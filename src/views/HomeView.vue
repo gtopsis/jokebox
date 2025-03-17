@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { constants } from '@/appConfig'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
-import { constants } from '@/constants'
 import type { Joke } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'

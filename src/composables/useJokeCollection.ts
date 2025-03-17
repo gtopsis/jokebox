@@ -1,4 +1,4 @@
-import { constants } from '@/constants'
+import { constants } from '@/appConfig'
 import type { ExtendedJoke, Joke } from '@/types/joke'
 import { loadStoredItems, storeItem } from '@/utils/localStorage'
 import { computed, ref } from 'vue'
