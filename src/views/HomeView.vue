@@ -1,27 +1,34 @@
 <script setup lang="ts">
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
-import { useFetch } from '@/composables/useFetch'
+import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { Joke } from '@/types/joke'
-import { computed, onMounted } from 'vue'
+import { formatDistanceToNow } from 'date-fns'
+import { computed, onMounted, ref } from 'vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const jokeType = 'random'
-const numberOfJokes = 25
-const apiUrl = `${import.meta.env.VITE_API_BASE_URL}${jokeType}/${numberOfJokes}`
-const { fetchData, isFetching, error, data } = useFetch<Joke[]>(apiUrl)
+const { getNewJokes, isLoading, fetchError, data, jokesFetchedLastDate } =
+  useJokeCollection()
 
-const isLoading = computed(() => isFetching.value)
-const fetchError = computed<Error | undefined>(() =>
-  error.value
-    ? new Error('Failed to fetch new jokes. Please try again!')
-    : undefined
-)
 const jokes = computed<Joke[] | null>(() => data.value)
 
+const defaultJokeType = 'random'
+const jokeType = ref<'programming' | 'random'>(defaultJokeType)
+const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
+
 const fetchJokes = async () => {
-  await fetchData()
+  await getNewJokes(jokeType.value, numberOfJokes)
+}
+
+const jokesFetchedTimeAgoText = computed(() =>
+  jokesFetchedLastDate.value
+    ? `${numberOfJokes} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
+    : 'No Jokes yet :('
+)
+
+const onFilterUpdate = (value: boolean) => {
+  jokeType.value = value ? 'programming' : 'random'
 }
 
 onMounted(async () => {
@@ -30,7 +37,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <GetJokesToolbar @onJobsFetchRequested="fetchJokes" />
+  <GetJokesToolbar
+    class="mt-6"
+    @onJobsFetchRequest="fetchJokes"
+    @onFilterUpdate="onFilterUpdate"
+  />
+
+  <div class="text-center">
+    <span class="mx-2 mt-4 mb-0 block text-xs text-[#333]">
+      {{ jokesFetchedTimeAgoText }}
+    </span>
+  </div>
 
   <div class="mt-6 w-full">
     <TheCardSkeleton v-if="isLoading" />

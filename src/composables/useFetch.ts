@@ -4,18 +4,20 @@ export interface UseFetchResponse<ResultDataType> {
   data: Ref<ResultDataType | null>
   isFetching: Ref<boolean>
   error: Ref<Error | null>
-  fetchData: () => Promise<void>
+  fetchData: (url: string, options?: RequestInit) => Promise<void>
 }
 
-export const useFetch = <T = Record<string, unknown>>(
-  apiUrl: string,
-  options: RequestInit = { method: 'GET' }
-): UseFetchResponse<T> => {
+export const useFetch = <
+  T = Record<string, unknown>,
+>(): UseFetchResponse<T> => {
   const data: Ref<T | null> = ref(null)
   const isFetching = ref(false)
   const error = ref<Error | null>(null)
 
-  const fetchData = async (): Promise<void> => {
+  const fetchData = async (
+    apiUrl: string,
+    options: RequestInit = { method: 'GET' }
+  ): Promise<void> => {
     isFetching.value = true
     error.value = null
 
