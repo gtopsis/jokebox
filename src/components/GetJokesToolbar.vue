@@ -33,6 +33,7 @@ const onButtonClicked = (event: Event) => {
         v-model="inputToggleSwitchValue"
         class="mr-4 block"
         :label="inputToggleSwitchLabel"
+        labelColor="var(--color-text-primary)"
         :checkedColors="inputToggleSwitchColors"
       />
       <BaseButton

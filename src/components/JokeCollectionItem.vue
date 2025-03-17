@@ -54,11 +54,11 @@ watch(
 
 <template>
   <div
-    class="joke bg-background-dark mx-auto flex max-w-4xl flex-col items-center gap-4 rounded-lg border-2 border-gray-200 p-4 shadow-md transition-shadow duration-250 hover:shadow-lg md:flex-row md:gap-2"
+    class="joke bg-background-dark border-border mx-auto flex max-w-4xl flex-col items-center gap-4 rounded-lg border-2 p-4 shadow-md transition-shadow duration-250 hover:shadow-lg md:flex-row md:gap-2"
   >
     <div class="flex-grow">
       <h4
-        class="joke__setup text-center text-2xl font-semibold text-gray-500 md:text-left"
+        class="joke__setup text-center text-xl font-semibold text-gray-500 md:text-left"
       >
         {{ joke.setup }}
       </h4>

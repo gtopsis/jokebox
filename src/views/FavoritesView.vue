@@ -15,7 +15,7 @@ onMounted(async () => {
 <template>
   <div v-if="jokes === null || jokes.length === 0" class="mt-6 w-full">
     <div class="text-center">
-      <span class="mx-2 mt-4 mb-0 block text-xs text-[#333]">
+      <span class="text-text-secondary mx-2 mt-4 mb-0 block text-xs">
         It seems that non joke stole your heart so far :)
       </span>
     </div>
