@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { JokeExtended } from '@/types/joke'
 import { computed, ref, watch } from 'vue'
+import IconEye from './icons/IconEye.vue'
 import IconHeart from './icons/IconHeart.vue'
 import BaseButton from './lib/BaseButton.vue'
 
@@ -63,9 +64,7 @@ watch(
         {{ joke.setup }}
       </h4>
 
-      <p class="joke__punchline text-accent text-center md:text-left">
-        <a href="#" v-if="!isPunchlineVisible" @click="showPunchline"> Show </a>
-
+      <p class="joke__punchline text-text-primary text-center md:text-left">
         <transition
           enter-active-class="duration-250 ease-out"
           enter-from-class="transform opacity-0"
@@ -74,15 +73,25 @@ watch(
           leave-from-class="opacity-100"
           leave-to-class="transform opacity-0"
         >
-          <span v-if="isPunchlineVisible">
-            {{ joke.punchline }}
-          </span>
+          <span v-show="isPunchlineVisible"> - {{ joke.punchline }} </span>
         </transition>
       </p>
     </div>
 
-    <div v-if="isPunchlineVisible" class="min-w-[35px] flex-shrink-0">
+    <div class="min-w-[35px] flex-shrink-0">
       <BaseButton
+        v-if="!isPunchlineVisible"
+        :colors="{
+          background: 'var(--color-accent-dark)',
+        }"
+        type="icon"
+        @click="showPunchline"
+      >
+        <IconEye color="var(--color-primary-light)" />
+      </BaseButton>
+
+      <BaseButton
+        v-else
         class="transition-colors duration-300 ease-in-out"
         type="icon"
         :colors="saveButtonColors"
