@@ -55,7 +55,7 @@ onMounted(async () => {
   />
 
   <div class="text-center">
-    <span class="text-text-secondary mx-2 mt-4 mb-0 block text-xs">
+    <span class="text-text-secondary text-md mx-2 mt-4 mb-0 block">
       {{ jokesFetchedTimeAgoText }}
     </span>
   </div>

@@ -79,7 +79,9 @@ const labelColorStyles = computed<Partial<StyleValue>>(() => ({
       ></span>
     </div>
 
-    <slot> {{ label }} </slot>
+    <slot>
+      <span class="text-[1rem]">{{ label }}</span>
+    </slot>
   </label>
 </template>
 
