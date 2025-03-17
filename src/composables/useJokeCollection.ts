@@ -1,3 +1,4 @@
+import { constants } from '@/constants'
 import type { Joke } from '@/types/joke'
 import { computed, ref } from 'vue'
 import { useFetch } from './useFetch'
@@ -20,7 +21,7 @@ export const useJokeCollection = () => {
     const formattedNumberOfJokes =
       type === 'programming' ? 'ten' : numberOfJokes
 
-    const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/${type}/${formattedNumberOfJokes}`
+    const apiUrl = `${constants.API_BASE_URL}/${type}/${formattedNumberOfJokes}`
 
     await fetchData(apiUrl)
 

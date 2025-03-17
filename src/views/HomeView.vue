@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
+import { constants } from '@/constants'
 import type { Joke } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
@@ -15,15 +16,14 @@ const jokes = computed<Joke[] | null>(() => data.value)
 
 const defaultJokeType = 'random'
 const jokeType = ref<'programming' | 'random'>(defaultJokeType)
-const numberOfJokes = import.meta.env.VITE_NUMBER_OF_JOKES || 10
 
 const fetchJokes = async () => {
-  await getNewJokes(jokeType.value, numberOfJokes)
+  await getNewJokes(jokeType.value, constants.NUMBER_OF_JOKES)
 }
 
 const jokesFetchedTimeAgoText = computed(() =>
   jokesFetchedLastDate.value
-    ? `${numberOfJokes} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
+    ? `${constants.NUMBER_OF_JOKES} jokes fetched ${formatDistanceToNow(jokesFetchedLastDate.value)} ago`
     : 'No Jokes yet :('
 )
 
