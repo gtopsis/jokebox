@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { ExtendedJoke, Joke } from '@/types/joke'
 import { computed } from 'vue'
 import JokeCollectionItem from './JokeCollectionItem.vue'
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const { jokes = [] } = defineProps<Props>()
+
+const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
 
 const extendedJokesCollection = computed<ExtendedJoke[]>(() =>
   jokes.map((joke) => ({
@@ -23,6 +26,12 @@ const onJokePunchlineRevealed = (joke: ExtendedJoke) => {
 
 const updateJokeSavedStatus = (joke: ExtendedJoke, isSaved: boolean) => {
   joke.saved = isSaved
+
+  if (isSaved) {
+    addJokeToFavorites(joke)
+  } else {
+    removeJokeFromFavorites(joke.id)
+  }
 }
 </script>
 
