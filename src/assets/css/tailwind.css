@@ -4,8 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-bellota: 'Bellota';
-  --font-bellota-text: 'Bellota_Text';
+  --font-bellota: "Bellota", system-ui;
+  --font-bellota-text: "Bellota Text", sans-serif;
 
   --color-primary: #f9f9d7;
   --color-primary-light: #fbfbe6;
