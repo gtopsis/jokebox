@@ -19,7 +19,7 @@ const inputToggleSwitchColors = {
   border: 'var(--color-accent)',
 }
 
-const fetchJokesColors = { background: 'var(--color-accent)' }
+const fetchJokesColors = { background: 'var(--color-accent-dark)' }
 
 const onButtonClicked = (event: Event) => {
   emit('onJobsFetchRequest', event)

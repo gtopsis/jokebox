@@ -58,12 +58,12 @@ watch(
   >
     <div class="flex-grow">
       <h4
-        class="joke__setup text-center text-xl font-semibold text-gray-500 md:text-left"
+        class="joke__setup text-text-primary text-center text-xl font-semibold md:text-left"
       >
         {{ joke.setup }}
       </h4>
 
-      <p class="joke__punchline text-center text-gray-600 md:text-left">
+      <p class="joke__punchline text-accent text-center md:text-left">
         <a href="#" v-if="!isPunchlineVisible" @click="showPunchline"> Show </a>
 
         <transition
