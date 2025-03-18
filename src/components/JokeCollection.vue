@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
+import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { JokeExtended } from '@/types/joke'
 import JokeCollectionItem from './JokeCollectionItem.vue'
 
@@ -10,6 +11,7 @@ interface Props {
 const { jokes } = defineProps<Props>()
 
 const { toggleSaveToFavorites } = useFavoriteJokeCollection()
+const { unsaveJokeFromFavorites } = useJokeCollection()
 
 const revealPunchline = (jokeId: number) => {
   const joke = jokes.find((j) => j.id === jokeId)
@@ -28,6 +30,7 @@ const toggleSave = (jokeId: number) => {
   const newSaveStatus = !joke.saved
   joke.saved = newSaveStatus
   toggleSaveToFavorites({ ...joke, saved: newSaveStatus })
+  unsaveJokeFromFavorites(joke.id)
 }
 </script>
 

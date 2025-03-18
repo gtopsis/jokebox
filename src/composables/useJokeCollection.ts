@@ -51,6 +51,13 @@ export const useJokeCollection = () => {
     storeItem(appConfig.STORE_KEY_NEW_JOKES, newJokes.value)
   }
 
+  const unsaveJokeFromFavorites = (jokeId: number) => {
+    const found = newJokes.value?.find((j) => j.id === jokeId)
+    if (found) {
+      found.saved = false
+    }
+  }
+
   if (itemExist(appConfig.STORE_KEY_NEW_JOKES)) {
     loadNewJokes()
   } else {
@@ -73,5 +80,6 @@ export const useJokeCollection = () => {
     jokesFetchedLastDate,
     loadNewJokes,
     saveNewJokes,
+    unsaveJokeFromFavorites,
   }
 }
