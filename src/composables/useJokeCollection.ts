@@ -67,19 +67,25 @@ export const useJokeCollection = () => {
     const found = favoriteJokes.value?.find((j) => j.id === joke.id)
     if (!found) {
       favoriteJokes.value.push(joke)
-      saveFavoriteJokes()
     }
   }
 
   const removeJokeFromFavorites = (jokeId: number) => {
     favoriteJokes.value = favoriteJokes.value.filter((j) => j.id !== jokeId)
-    saveFavoriteJokes()
   }
 
   watch(
     jokesCollectionWithState,
     () => {
       saveNewJokes()
+    },
+    { deep: true }
+  )
+
+  watch(
+    favoriteJokes,
+    () => {
+      saveFavoriteJokes()
     },
     { deep: true }
   )
