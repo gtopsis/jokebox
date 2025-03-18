@@ -28,7 +28,7 @@ const saveButtonTitle = computed(() =>
   props.joke.saved ? 'Remove from favorites' : 'Save to Favorites'
 )
 
-const saveJoke = () => {
+const saveJokeToFavorites = () => {
   emit('onToggleSave')
 }
 
@@ -80,7 +80,7 @@ const showPunchline = () => {
         type="icon"
         :colors="saveButtonColors"
         :title="saveButtonTitle"
-        @click="saveJoke"
+        @click="saveJokeToFavorites"
       >
         <IconHeart :color="isSaved ? 'red' : 'black'" />
       </BaseButton>

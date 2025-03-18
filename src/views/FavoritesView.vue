@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { appConfig } from '@/appConfig'
-import type { JokeExtended } from '@/types/joke'
-import { loadStoredItem } from '@/utils/localStorage'
-import { onMounted, ref } from 'vue'
+import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
+import { onMounted } from 'vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const jokes = ref<JokeExtended[] | null>([])
+const { favoriteJokes, loadFavoriteJokes } = useFavoriteJokeCollection()
 
 onMounted(async () => {
-  jokes.value =
-    loadStoredItem<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
+  loadFavoriteJokes()
 })
 </script>
 
 <template>
-  <div v-if="jokes === null || jokes.length === 0" class="mt-6 w-full">
+  <div
+    v-if="favoriteJokes === null || favoriteJokes.length === 0"
+    class="mt-6 w-full"
+  >
     <div class="text-center">
       <span class="text-text-secondary text-md mx-2 mt-4 mb-0 block">
         It seems that no joke have been stollen your heart so far :)
       </span>
     </div>
   </div>
-  <JokeCollection v-else :jokes="jokes" />
+  <JokeCollection v-else :jokes="favoriteJokes" />
 </template>
