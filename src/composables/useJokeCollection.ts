@@ -6,7 +6,6 @@ import { useFetch } from './useFetch'
 
 export const useJokeCollection = () => {
   const { fetchData, isFetching, error, data } = useFetch<Joke[]>()
-  const jokesFetchedLastDate = ref<string | null>(null)
 
   const isLoading = computed(() => isFetching.value)
   const fetchError = computed<Error | undefined>(() =>
@@ -15,16 +14,27 @@ export const useJokeCollection = () => {
       : undefined
   )
 
+  const jokesCollectionWithState = ref<JokeExtended[] | null>(null)
+
+  const jokesFetchedLastDate = ref<string | null>(null)
+
   const getNewJokes = async (
     type: 'programming' | 'random',
     numberOfJokes: number
   ) => {
     const formattedNumberOfJokes =
       type === 'programming' ? 'ten' : numberOfJokes
-
     const apiUrl = `${appConfig.API_BASE_URL}/${type}/${formattedNumberOfJokes}`
-
     await fetchData(apiUrl)
+
+    jokesCollectionWithState.value =
+      data.value === null
+        ? null
+        : data.value.map((joke) => ({
+            ...joke,
+            saved: false,
+            visiblePunchline: false,
+          }))
 
     jokesFetchedLastDate.value = new Date().toISOString()
     storeItem('jokesFetchedLastDate', jokesFetchedLastDate.value)
@@ -44,7 +54,9 @@ export const useJokeCollection = () => {
   }
 
   const loadNewJokes = () => {
-    data.value = loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_NEW_JOKES)
+    jokesCollectionWithState.value = loadStoredItems<JokeExtended[]>(
+      appConfig.STORE_KEY_NEW_JOKES
+    )
     jokesFetchedLastDate.value = loadStoredItems<string>('jokesFetchedLastDate')
   }
 
@@ -69,7 +81,7 @@ export const useJokeCollection = () => {
     getNewJokes,
     isLoading,
     fetchError,
-    data,
+    jokesCollectionWithState,
     jokesFetchedLastDate,
     loadFavoriteJokes,
     addJokeToFavorites,

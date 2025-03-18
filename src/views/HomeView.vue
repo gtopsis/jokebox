@@ -2,7 +2,7 @@
 import { appConfig } from '@/appConfig'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
-import type { Joke } from '@/types/joke'
+import type { JokeExtended } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
@@ -13,13 +13,15 @@ const {
   getNewJokes,
   isLoading,
   fetchError,
-  data,
+  jokesCollectionWithState,
   jokesFetchedLastDate,
   loadNewJokes,
   saveNewJokes,
 } = useJokeCollection()
 
-const jokes = computed<Joke[] | null>(() => data.value)
+const jokes = computed<JokeExtended[] | null>(
+  () => jokesCollectionWithState.value
+)
 
 const defaultJokeType = 'random'
 const jokeType = ref<'programming' | 'random'>(defaultJokeType)
@@ -41,7 +43,7 @@ const onFilterUpdate = (value: boolean) => {
 
 onMounted(async () => {
   loadNewJokes()
-  if (data.value === null) {
+  if (jokesCollectionWithState.value === null) {
     await fetchJokes()
   }
 })

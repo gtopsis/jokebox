@@ -1,24 +1,15 @@
 <script setup lang="ts">
 import { useJokeCollection } from '@/composables/useJokeCollection'
-import type { Joke, JokeExtended } from '@/types/joke'
-import { reactive } from 'vue'
+import type { JokeExtended } from '@/types/joke'
 import JokeCollectionItem from './JokeCollectionItem.vue'
 
 interface Props {
-  jokes: Joke[]
+  jokes: JokeExtended[]
 }
 
-const { jokes = [] } = defineProps<Props>()
+const { jokes: extendedJokesCollection = [] } = defineProps<Props>()
 
 const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
-
-const extendedJokesCollection = reactive<JokeExtended[]>(
-  jokes.map((joke) => ({
-    ...joke,
-    saved: false,
-    visiblePunchline: false,
-  }))
-)
 
 const revealPunchline = (jokeId: number) => {
   const joke = extendedJokesCollection.find((j) => j.id === jokeId)

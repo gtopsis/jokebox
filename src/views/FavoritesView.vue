@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { appConfig } from '@/appConfig'
-import type { Joke } from '@/types/joke'
+import type { JokeExtended } from '@/types/joke'
 import { loadStoredItems } from '@/utils/localStorage'
 import { onMounted, ref } from 'vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const jokes = ref<Joke[] | null>([])
+const jokes = ref<JokeExtended[] | null>([])
 
 onMounted(async () => {
-  jokes.value = loadStoredItems<Joke[]>(appConfig.STORE_KEY_FAVORITES) || []
+  jokes.value =
+    loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
 })
 </script>
 
