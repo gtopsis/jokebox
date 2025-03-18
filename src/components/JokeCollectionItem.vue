@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import type { JokeExtended } from '@/types/joke'
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import IconEye from './icons/IconEye.vue'
 import IconHeart from './icons/IconHeart.vue'
 import BaseButton from './lib/BaseButton.vue'
 
 interface Props {
   joke: JokeExtended
-  visiblePunchline?: boolean
-  saved?: boolean
 }
 
-const { visiblePunchline = false, saved = false } = defineProps<Props>()
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'onPunchlineRevealed'): void
-  (e: 'onSave', isSaved: boolean): void
+  (e: 'onToggleSave'): void
 }>()
 
-const isPunchlineVisible = ref(visiblePunchline)
-const isSaved = ref(saved)
+const isPunchlineVisible = computed(() => props.joke.visiblePunchline)
+const isSaved = computed(() => props.joke.saved)
 
 const saveButtonColors = computed(() => ({
   background: 'var(--color-white)',
@@ -27,44 +25,32 @@ const saveButtonColors = computed(() => ({
 }))
 
 const saveButtonTitle = computed(() =>
-  isSaved.value ? 'Remove from favorites' : 'Save to Favorites'
+  props.joke.saved ? 'Remove from favorites' : 'Save to Favorites'
 )
 
 const saveJoke = () => {
-  emit('onSave', !isSaved.value)
+  emit('onToggleSave')
 }
 
 const showPunchline = () => {
   emit('onPunchlineRevealed')
 }
-
-watch(
-  () => visiblePunchline,
-  (newValue: boolean) => {
-    isPunchlineVisible.value = newValue
-  }
-)
-
-watch(
-  () => saved,
-  (newValue: boolean) => {
-    isSaved.value = newValue
-  }
-)
 </script>
 
 <template>
   <div
-    class="joke bg-background-dark border-border mx-auto flex max-w-4xl flex-col items-center gap-4 rounded-lg border-2 p-4 shadow-md transition-shadow duration-250 hover:shadow-lg md:flex-row md:gap-2"
+    class="joke bg-background-dark border-border mx-auto flex max-w-4xl flex-col items-center gap-2 rounded-lg border-2 p-4 shadow-md transition-shadow duration-250 hover:shadow-lg md:flex-row md:gap-3"
   >
     <div class="flex-grow">
       <h4
-        class="joke__setup text-text-primary text-center text-xl font-semibold md:text-left"
+        class="joke__setup text-text-primary mb-2 text-center text-xl font-semibold md:mb-0 md:text-left"
       >
         {{ joke.setup }}
       </h4>
 
-      <p class="joke__punchline text-text-primary text-center md:text-left">
+      <p
+        class="joke__punchline text-text-primary min-h-7 text-center text-lg md:text-left"
+      >
         <transition
           enter-active-class="duration-250 ease-out"
           enter-from-class="transform opacity-0"
@@ -73,7 +59,7 @@ watch(
           leave-from-class="opacity-100"
           leave-to-class="transform opacity-0"
         >
-          <span v-show="isPunchlineVisible"> - {{ joke.punchline }} </span>
+          <span v-show="isPunchlineVisible"> {{ joke.punchline }} </span>
         </transition>
       </p>
     </div>
@@ -85,6 +71,7 @@ watch(
           background: 'var(--color-accent-dark)',
         }"
         type="icon"
+        title="Show punchline"
         @click="showPunchline"
       >
         <IconEye color="var(--color-primary-light)" />

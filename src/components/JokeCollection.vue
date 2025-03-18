@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { Joke, JokeExtended } from '@/types/joke'
-import { computed } from 'vue'
+import { reactive } from 'vue'
 import JokeCollectionItem from './JokeCollectionItem.vue'
 
 interface Props {
@@ -12,7 +12,7 @@ const { jokes = [] } = defineProps<Props>()
 
 const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
 
-const extendedJokesCollection = computed<JokeExtended[]>(() =>
+const extendedJokesCollection = reactive<JokeExtended[]>(
   jokes.map((joke) => ({
     ...joke,
     saved: false,
@@ -20,17 +20,23 @@ const extendedJokesCollection = computed<JokeExtended[]>(() =>
   }))
 )
 
-const onJokePunchlineRevealed = (joke: JokeExtended) => {
-  joke.visiblePunchline = true
+const revealPunchline = (jokeId: number) => {
+  const joke = extendedJokesCollection.find((j) => j.id === jokeId)
+  if (joke) {
+    joke.visiblePunchline = true
+  }
 }
 
-const updateJokeSavedStatus = (joke: JokeExtended, isSaved: boolean) => {
-  joke.saved = isSaved
+const toggleSave = (jokeId: number) => {
+  const joke = extendedJokesCollection.find((j) => j.id === jokeId)
 
-  if (isSaved) {
-    addJokeToFavorites(joke)
-  } else {
+  if (!joke) return
+
+  joke.saved = !joke.saved
+  if (joke.saved) {
     removeJokeFromFavorites(joke.id)
+  } else {
+    addJokeToFavorites(joke)
   }
 }
 </script>
@@ -42,10 +48,8 @@ const updateJokeSavedStatus = (joke: JokeExtended, isSaved: boolean) => {
       :key="joke.id"
       class="mt-2"
       :joke="joke"
-      :saved="joke.saved"
-      :visiblePunchline="joke.visiblePunchline"
-      @onPunchlineRevealed="onJokePunchlineRevealed(joke)"
-      @onSave="(isSaved: boolean) => updateJokeSavedStatus(joke, isSaved)"
+      @onPunchlineRevealed="revealPunchline(joke.id)"
+      @onSave="toggleSave(joke.id)"
     />
   </TransitionGroup>
 </template>
