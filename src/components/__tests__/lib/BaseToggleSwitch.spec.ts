@@ -75,7 +75,7 @@ describe('BaseToggleSwitch', () => {
       },
     })
 
-    const input = screen.getByText('Toggle me').querySelector('input')
-    expect(input).toHaveAttribute('id', 'my-toggle')
+    const toggle = screen.getByRole('checkbox')
+    expect(toggle).toHaveAttribute('id', 'my-toggle')
   })
 })
