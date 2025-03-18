@@ -1,4 +1,6 @@
-# JokeBox
+[![Deploy static content to Pages](https://github.com/gtopsis/jokebox/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/gtopsis/jokebox/actions/workflows/main.yml)
+
+# JokeBox 
 
 A web application designed to bring entertainment and engagement to users by
 allowing them to collect, rate, and enjoy a wide variety of jokes.
