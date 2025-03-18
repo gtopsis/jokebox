@@ -13,6 +13,7 @@ const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
 
 const revealPunchline = (jokeId: number) => {
   const joke = extendedJokesCollection.find((j) => j.id === jokeId)
+
   if (joke) {
     joke.visiblePunchline = true
   }

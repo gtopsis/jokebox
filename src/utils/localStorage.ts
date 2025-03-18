@@ -1,7 +1,7 @@
-export const loadStoredItems = <T>(storeKey: string): T | null => {
-  const storedItems = localStorage.getItem(storeKey)
+export const loadStoredItem = <T>(storeKey: string): T | null => {
+  const storedItem = localStorage.getItem(storeKey)
 
-  return storedItems ? JSON.parse(storedItems) : null
+  return storedItem ? JSON.parse(storedItem) : null
 }
 
 export const storeItem = <T>(storeKey: string, item: T) => {

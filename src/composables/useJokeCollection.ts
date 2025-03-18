@@ -1,7 +1,7 @@
 import { appConfig } from '@/appConfig'
 import type { Joke, JokeExtended } from '@/types/joke'
-import { loadStoredItems, storeItem } from '@/utils/localStorage'
-import { computed, ref } from 'vue'
+import { loadStoredItem, storeItem } from '@/utils/localStorage'
+import { computed, ref, watch } from 'vue'
 import { useFetch } from './useFetch'
 
 export const useJokeCollection = () => {
@@ -27,26 +27,25 @@ export const useJokeCollection = () => {
     const apiUrl = `${appConfig.API_BASE_URL}/${type}/${formattedNumberOfJokes}`
     await fetchData(apiUrl)
 
-    jokesCollectionWithState.value =
-      data.value === null
-        ? null
-        : data.value.map((joke) => ({
-            ...joke,
-            saved: false,
-            visiblePunchline: false,
-          }))
+    jokesCollectionWithState.value = !data.value
+      ? null
+      : data.value?.map((joke) => ({
+          ...joke,
+          saved: false,
+          visiblePunchline: false,
+        }))
 
     jokesFetchedLastDate.value = new Date().toISOString()
     storeItem('jokesFetchedLastDate', jokesFetchedLastDate.value)
   }
 
   const favoriteJokes = ref<JokeExtended[]>(
-    loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
+    loadStoredItem<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
   )
 
   const loadFavoriteJokes = () => {
     favoriteJokes.value =
-      loadStoredItems<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
+      loadStoredItem<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
   }
 
   const saveFavoriteJokes = () => {
@@ -54,14 +53,14 @@ export const useJokeCollection = () => {
   }
 
   const loadNewJokes = () => {
-    jokesCollectionWithState.value = loadStoredItems<JokeExtended[]>(
+    jokesCollectionWithState.value = loadStoredItem<JokeExtended[]>(
       appConfig.STORE_KEY_NEW_JOKES
     )
-    jokesFetchedLastDate.value = loadStoredItems<string>('jokesFetchedLastDate')
+    jokesFetchedLastDate.value = loadStoredItem<string>('jokesFetchedLastDate')
   }
 
   const saveNewJokes = () => {
-    storeItem(appConfig.STORE_KEY_NEW_JOKES, data.value)
+    storeItem(appConfig.STORE_KEY_NEW_JOKES, jokesCollectionWithState.value)
   }
 
   const addJokeToFavorites = (joke: JokeExtended) => {
@@ -76,6 +75,14 @@ export const useJokeCollection = () => {
     favoriteJokes.value = favoriteJokes.value.filter((j) => j.id !== jokeId)
     saveFavoriteJokes()
   }
+
+  watch(
+    jokesCollectionWithState,
+    () => {
+      saveNewJokes()
+    },
+    { deep: true }
+  )
 
   return {
     getNewJokes,

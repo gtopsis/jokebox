@@ -16,7 +16,6 @@ const {
   jokesCollectionWithState,
   jokesFetchedLastDate,
   loadNewJokes,
-  saveNewJokes,
 } = useJokeCollection()
 
 const jokes = computed<JokeExtended[] | null>(
@@ -28,7 +27,6 @@ const jokeType = ref<'programming' | 'random'>(defaultJokeType)
 
 const fetchJokes = async () => {
   await getNewJokes(jokeType.value, appConfig.NUMBER_OF_JOKES)
-  saveNewJokes()
 }
 
 const jokesFetchedTimeAgoText = computed(() =>
