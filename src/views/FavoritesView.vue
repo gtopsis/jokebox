@@ -2,6 +2,7 @@
 import EmptyContent from '@/components/EmptyContent.vue'
 import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
 import { onMounted } from 'vue'
+import FavoriteJokesCollectionStatistics from '../components/FavoriteJokesCollectionStatistics.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
 const { favoriteJokes, loadFavoriteJokes } = useFavoriteJokeCollection()
@@ -12,6 +13,8 @@ onMounted(async () => {
 </script>
 
 <template>
+  <FavoriteJokesCollectionStatistics class="mt-4 w-full" />
+
   <div class="mt-6 w-full">
     <EmptyContent
       v-if="favoriteJokes === null || favoriteJokes.length === 0"
