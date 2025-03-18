@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { appConfig } from '@/appConfig'
+import EmptyContent from '@/components/EmptyContent.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import { formatDistanceToNow } from 'date-fns'
@@ -51,6 +52,12 @@ onMounted(async () => {
   <div class="mt-6 w-full">
     <TheCardSkeleton v-if="isLoading" />
     <ErrorAlert v-else-if="fetchError" :error="fetchError" />
+    <EmptyContent
+      v-if="newJokes === null || newJokes.length === 0"
+      class="mt-6 w-full"
+      >It seems that the room is too cold already!
+    </EmptyContent>
+
     <JokeCollection v-else-if="newJokes !== null" :jokes="newJokes" />
   </div>
 </template>

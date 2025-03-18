@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EmptyContent from '@/components/EmptyContent.vue'
 import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
 import { onMounted } from 'vue'
 import JokeCollection from '../components/JokeCollection.vue'
@@ -11,15 +12,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    v-if="favoriteJokes === null || favoriteJokes.length === 0"
-    class="mt-6 w-full"
-  >
-    <div class="text-center">
-      <span class="text-text-secondary text-md mx-2 mt-4 mb-0 block">
-        It seems that no joke have been stollen your heart so far :)
-      </span>
-    </div>
+  <div class="mt-6 w-full">
+    <EmptyContent
+      v-if="favoriteJokes === null || favoriteJokes.length === 0"
+      class="mt-6 w-full"
+      >It seems that no joke have been stollen your heart so far :)
+    </EmptyContent>
+
+    <JokeCollection v-else :jokes="favoriteJokes" />
   </div>
-  <JokeCollection v-else :jokes="favoriteJokes" />
 </template>
