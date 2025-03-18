@@ -32,7 +32,7 @@ const toggleSave = (jokeId: number) => {
 </script>
 
 <template>
-  <TransitionGroup name="joke-collection">
+  <TransitionGroup name="collection">
     <JokeCollectionItem
       v-for="joke in jokes"
       :key="joke.id"
