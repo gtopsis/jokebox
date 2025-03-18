@@ -50,17 +50,14 @@ const showPunchline = () => {
 
       <p
         class="joke__punchline text-text-primary min-h-7 text-center text-lg md:text-left"
+        :class="{
+          'translate-y-4': !isPunchlineVisible,
+          'opacity-0': !isPunchlineVisible,
+          'duration-1000': isPunchlineVisible,
+          'duration-200': !isPunchlineVisible,
+        }"
       >
-        <transition
-          enter-active-class="duration-250 ease-out"
-          enter-from-class="transform opacity-0"
-          enter-to-class="opacity-100"
-          leave-active-class="duration-200 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="transform opacity-0"
-        >
-          <span v-show="isPunchlineVisible"> {{ joke.punchline }} </span>
-        </transition>
+        <span v-show="isPunchlineVisible"> {{ joke.punchline }} </span>
       </p>
     </div>
 
