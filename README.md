@@ -20,7 +20,7 @@ Visit https://gtopsis.github.io/jokebox/
   docker run --rm jokebox:latest -p 5173:5173 .
   ```
 
-- Using PNPM
+- Using PNPM (v10.6.1 recommended)
   > **_NOTE:_** Node v20.9.0 is recomended
   ```bash
   pnpm i
