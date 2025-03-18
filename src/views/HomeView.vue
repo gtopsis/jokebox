@@ -58,6 +58,9 @@ onMounted(async () => {
       >It seems that the room is too cold already!
     </EmptyContent>
 
-    <JokeCollection v-else-if="newJokes !== null" :jokes="newJokes" />
+    <JokeCollection
+      v-else-if="!isLoading && newJokes !== null"
+      :jokes="newJokes"
+    />
   </div>
 </template>
