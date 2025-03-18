@@ -1,8 +1,5 @@
 @import 'tailwindcss';
 
-/* TODO: for testing purposes, remove this before release */
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   --font-bellota: "Bellota", system-ui;
   --font-bellota-text: "Bellota Text", sans-serif;
