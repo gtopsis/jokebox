@@ -13,9 +13,13 @@ describe('JokeCollection', () => {
   it('should render joke items', () => {
     render(JokeCollection, { props: { jokes } })
 
-    expect(screen.getByText('Setup 1')).toBeInTheDocument()
-    expect(screen.queryByText('Punchline 1')).not.toBeInTheDocument()
-    expect(screen.getByText('Setup 2')).toBeInTheDocument()
-    expect(screen.queryByText('Punchline 2')).not.toBeInTheDocument()
+    expect(screen.getByText(jokes[0].setup)).toBeInTheDocument()
+    expect(getComputedStyle(screen.getByText(jokes[0].punchline)).display).toBe(
+      'none'
+    )
+    expect(screen.getByText(jokes[1].setup)).toBeInTheDocument()
+    expect(getComputedStyle(screen.getByText(jokes[1].punchline)).display).toBe(
+      'none'
+    )
   })
 })
