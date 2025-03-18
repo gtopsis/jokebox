@@ -2,25 +2,14 @@
 import { appConfig } from '@/appConfig'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
-import type { JokeExtended } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 import GetJokesToolbar from '../components/GetJokesToolbar.vue'
 import JokeCollection from '../components/JokeCollection.vue'
 
-const {
-  getNewJokes,
-  isLoading,
-  fetchError,
-  jokesCollectionWithState,
-  jokesFetchedLastDate,
-  loadNewJokes,
-} = useJokeCollection()
-
-const jokes = computed<JokeExtended[] | null>(
-  () => jokesCollectionWithState.value
-)
+const { getNewJokes, isLoading, fetchError, newJokes, jokesFetchedLastDate } =
+  useJokeCollection()
 
 const defaultJokeType = 'random'
 const jokeType = ref<'programming' | 'random'>(defaultJokeType)
@@ -40,8 +29,7 @@ const onFilterUpdate = (value: boolean) => {
 }
 
 onMounted(async () => {
-  loadNewJokes()
-  if (jokesCollectionWithState.value === null) {
+  if (newJokes.value === null || newJokes.value === undefined) {
     await fetchJokes()
   }
 })
@@ -63,6 +51,6 @@ onMounted(async () => {
   <div class="mt-6 w-full">
     <TheCardSkeleton v-if="isLoading" />
     <ErrorAlert v-else-if="fetchError" :error="fetchError" />
-    <JokeCollection v-else-if="jokes !== null" :jokes="jokes" />
+    <JokeCollection v-else-if="newJokes !== null" :jokes="newJokes" />
   </div>
 </template>
