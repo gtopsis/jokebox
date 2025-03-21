@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import BaseButton from './lib/BaseButton.vue'
 import BaseToggle from './lib/BaseToggleSwitch.vue'
 
@@ -10,9 +10,12 @@ const emit = defineEmits<{
 
 const inputToggleSwitchLabel = ref('Programming jokes only')
 const inputToggleSwitchValue = ref(false)
-watch(inputToggleSwitchValue, (newValue: boolean) => {
-  emit('onFilterUpdate', newValue)
-})
+
+const onToggleChanged = (newValue: boolean | undefined) => {
+  if (newValue !== undefined) {
+    emit('onFilterUpdate', newValue)
+  }
+}
 
 const inputToggleSwitchColors = {
   thumb: 'var(--color-accent)',
@@ -30,7 +33,8 @@ const onButtonClicked = (event: Event) => {
   <div class="container mx-auto flex flex-col items-center">
     <div class="flex w-full justify-center gap-4 align-middle">
       <BaseToggle
-        v-model="inputToggleSwitchValue"
+        :modelValue="inputToggleSwitchValue"
+        @update:modelValue="onToggleChanged"
         class="mr-4 block"
         :label="inputToggleSwitchLabel"
         labelColor="var(--color-text-primary)"
