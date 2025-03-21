@@ -1,5 +1,5 @@
+import HomeView from '@/views/HomeView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,12 +12,12 @@ const router = createRouter({
     {
       path: '/favorites',
       name: 'favorites',
-      component: () => import('../views/FavoritesView.vue'),
+      component: () => import('@/views/FavoritesView.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('../views/NotFoundErrorView.vue'),
+      component: () => import('@/views/NotFoundErrorView.vue'),
     },
   ],
 })
