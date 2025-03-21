@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import BaseButton from '@/components/lib/BaseButton.vue'
+import BaseToggle from '@/components/lib/BaseToggleSwitch.vue'
 import { ref } from 'vue'
-import BaseButton from './lib/BaseButton.vue'
-import BaseToggle from './lib/BaseToggleSwitch.vue'
 
 const emit = defineEmits<{
   (e: 'onJobsFetchRequest', event: Event): void

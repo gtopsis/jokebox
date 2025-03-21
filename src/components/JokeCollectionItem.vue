@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import IconEye from '@/components/icons/IconEye.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
+import BaseButton from '@/components/lib/BaseButton.vue'
 import type { JokeExtended } from '@/types/joke'
 import { computed } from 'vue'
-import IconEye from './icons/IconEye.vue'
-import IconHeart from './icons/IconHeart.vue'
-import BaseButton from './lib/BaseButton.vue'
 
 interface Props {
   joke: JokeExtended

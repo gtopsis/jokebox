@@ -1,8 +1,8 @@
 import { appConfig } from '@/appConfig'
+import { useFetch } from '@/composables/useFetch'
 import type { Joke, JokeExtended } from '@/types/joke'
 import { itemExist, retrieveStoredItem, storeItem } from '@/utils/localStorage'
 import { computed, ref, watch } from 'vue'
-import { useFetch } from './useFetch'
 
 export const useJokeCollection = () => {
   const { fetchData, isFetching, error, data } = useFetch<Joke[]>()

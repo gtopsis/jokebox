@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import EmptyContent from '@/components/EmptyContent.vue'
+import FavoriteJokesCollectionStatistics from '@/components/FavoriteJokesCollectionStatistics.vue'
+import JokeCollection from '@/components/JokeCollection.vue'
 import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
 import { onMounted } from 'vue'
-import FavoriteJokesCollectionStatistics from '../components/FavoriteJokesCollectionStatistics.vue'
-import JokeCollection from '../components/JokeCollection.vue'
 
 const { favoriteJokes, loadFavoriteJokes } = useFavoriteJokeCollection()
 

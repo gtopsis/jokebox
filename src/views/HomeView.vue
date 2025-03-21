@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { appConfig } from '@/appConfig'
 import EmptyContent from '@/components/EmptyContent.vue'
+import ErrorAlert from '@/components/ErrorAlert.vue'
+import GetJokesToolbar from '@/components/GetJokesToolbar.vue'
+import JokeCollection from '@/components/JokeCollection.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
-import ErrorAlert from '../components/ErrorAlert.vue'
-import GetJokesToolbar from '../components/GetJokesToolbar.vue'
-import JokeCollection from '../components/JokeCollection.vue'
 
 const { getNewJokes, isLoading, fetchError, newJokes, jokesFetchedLastDate } =
   useJokeCollection()

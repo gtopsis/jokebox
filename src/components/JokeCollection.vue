@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import JokeCollectionItem from '@/components/JokeCollectionItem.vue'
 import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { JokeExtended } from '@/types/joke'
-import JokeCollectionItem from './JokeCollectionItem.vue'
 
 interface Props {
   jokes: JokeExtended[]
