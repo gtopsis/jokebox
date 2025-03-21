@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 interface NavItem {
   title: string
   routeName: string
 }
 
-const navItems = ref<NavItem[]>([
+const navItems: NavItem[] = [
   { title: 'New', routeName: 'home' },
   { title: 'Favorites', routeName: 'favorites' },
-])
+]
 </script>
 
 <template>

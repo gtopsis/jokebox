@@ -19,10 +19,10 @@ const emit = defineEmits<{
 const isPunchlineVisible = computed(() => props.joke.visiblePunchline)
 const isSaved = computed(() => props.joke.saved)
 
-const saveButtonColors = computed(() => ({
+const saveButtonColors = {
   background: 'var(--color-white)',
   border: 'var(--color-zinc-900)',
-}))
+}
 
 const saveButtonTitle = computed(() =>
   props.joke.saved ? 'Remove from favorites' : 'Save to Favorites'
@@ -75,6 +75,7 @@ const showPunchline = () => {
       </BaseButton>
 
       <BaseButton
+        Button
         v-else
         class="transition-colors duration-300 ease-in-out"
         type="icon"
