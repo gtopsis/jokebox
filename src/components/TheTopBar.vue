@@ -1,26 +1,26 @@
 <script setup lang="ts">
 interface NavItem {
   title: string
-  routeName: string
+  route: { name: string }
 }
 
-const navItems: NavItem[] = [
-  { title: 'New', routeName: 'home' },
-  { title: 'Favorites', routeName: 'favorites' },
-]
+const navItems: Record<string, NavItem> = {
+  home: { title: 'New Jokes', route: { name: 'home' } },
+  favorites: { title: 'Favorites', route: { name: 'favorites' } },
+}
 </script>
 
 <template>
   <nav class="container mx-auto flex items-center justify-center">
     <RouterLink
-      :to="{ name: navItems[0].routeName }"
+      :to="navItems.home.route"
       class="text-accent hover:border-b-accent border-b-2 border-transparent px-2 py-2 text-[1.1rem] font-bold no-underline transition-[border]"
     >
-      New Jokes
+      {{ navItems.home.title }}
     </RouterLink>
 
     <RouterLink
-      :to="{ name: navItems[0].routeName }"
+      :to="navItems.home.route"
       class="title mx-4 border-b-2 border-transparent px-4 py-2 font-bold no-underline hover:border-b-2"
     >
       <strong class="font-bellota text-text-secondary text-4xl font-bold"
@@ -29,10 +29,11 @@ const navItems: NavItem[] = [
     </RouterLink>
 
     <RouterLink
-      :to="{ name: navItems[1].routeName }"
+      :to="navItems.favorites.route"
       class="text-accent hover:border-b-accent border-b-2 border-transparent px-2 py-2 text-[1.1rem] font-bold no-underline transition-[border]"
-      >Favorites</RouterLink
     >
+      {{ navItems.favorites.title }}
+    </RouterLink>
   </nav>
 </template>
 
