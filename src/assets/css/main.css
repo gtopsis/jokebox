@@ -15,6 +15,7 @@
 body {
   background-color: var(--color-background-light, --default-color-background);
   font-family: var(--font-bellota-text), system-ui;
+  overflow-y: scroll;
 }
 
 h1,
