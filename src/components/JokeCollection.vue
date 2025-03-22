@@ -10,8 +10,8 @@ interface Props {
 
 const { jokes } = defineProps<Props>()
 
-const { toggleSaveToFavorites } = useFavoriteJokeCollection()
-const { unsaveJokeFromFavorites } = useJokeCollection()
+const { toggleJokeInFavorites } = useFavoriteJokeCollection()
+const { setJokeFavoriteStatusInNewJokesCollection } = useJokeCollection()
 
 const revealPunchline = (jokeId: number) => {
   const joke = jokes.find((j) => j.id === jokeId)
@@ -21,16 +21,22 @@ const revealPunchline = (jokeId: number) => {
   }
 }
 
-const toggleSave = (jokeId: number) => {
+const toggleJokeFavoriteStatus = (jokeId: number) => {
   const joke = jokes.find((j) => j.id === jokeId)
   if (!joke) {
     return
   }
 
   const newSaveStatus = !joke.saved
-  joke.saved = newSaveStatus
-  toggleSaveToFavorites({ ...joke, saved: newSaveStatus })
-  unsaveJokeFromFavorites(joke.id)
+
+  toggleJokeInFavorites(
+    {
+      ...joke,
+      saved: newSaveStatus,
+    },
+    newSaveStatus
+  )
+  setJokeFavoriteStatusInNewJokesCollection(joke.id, newSaveStatus)
 }
 </script>
 
@@ -42,7 +48,7 @@ const toggleSave = (jokeId: number) => {
       class="mt-2"
       :joke="joke"
       @onPunchlineRevealed="revealPunchline(joke.id)"
-      @onToggleSave="toggleSave(joke.id)"
+      @onToggleSave="toggleJokeFavoriteStatus(joke.id)"
     />
   </TransitionGroup>
 </template>

@@ -23,8 +23,8 @@ export const useFavoriteJokeCollection = () => {
     favoriteJokes.value = favoriteJokes.value.filter((j) => j.id !== jokeId)
   }
 
-  const toggleSaveToFavorites = (joke: JokeExtended) => {
-    if (joke.saved) {
+  const toggleJokeInFavorites = (joke: JokeExtended, newStatus: boolean) => {
+    if (newStatus) {
       addJokeToFavorites(joke)
     } else {
       removeJokeFromFavorites(joke.id)
@@ -51,6 +51,6 @@ export const useFavoriteJokeCollection = () => {
     saveFavoriteJokes,
     addJokeToFavorites,
     removeJokeFromFavorites,
-    toggleSaveToFavorites,
+    toggleJokeInFavorites,
   }
 }

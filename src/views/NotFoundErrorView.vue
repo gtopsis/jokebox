@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import BaseButton from '@/components/lib/BaseButton.vue'
+import router from '@/router'
+
+const goToHome = () => {
+  router.push({ name: 'home' })
+}
 </script>
 
 <template>
@@ -17,9 +22,7 @@ import BaseButton from '@/components/lib/BaseButton.vue'
         </p>
 
         <div class="mt-6 flex items-center gap-x-3">
-          <BaseButton @click="$router.push({ name: 'home' })">
-            Take me home
-          </BaseButton>
+          <BaseButton @click="goToHome"> Take me home </BaseButton>
         </div>
       </div>
     </div>

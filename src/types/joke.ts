@@ -1,8 +1,8 @@
-type JokeType = 'programming' | 'general' | string
+export type JokeValidTypes = 'programming' | 'random'
 
 export interface Joke {
   id: number
-  type: JokeType
+  type: string
   setup: string
   punchline: string
 }

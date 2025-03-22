@@ -6,18 +6,12 @@ import GetJokesToolbar from '@/components/GetJokesToolbar.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeCollection'
+import type { JokeValidTypes } from '@/types/joke'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 
 const { getNewJokes, isLoading, fetchError, newJokes, jokesFetchedLastDate } =
   useJokeCollection()
-
-const defaultJokeType = 'random'
-const jokeType = ref<'programming' | 'random'>(defaultJokeType)
-
-const fetchJokes = async () => {
-  await getNewJokes(jokeType.value, appConfig.NUMBER_OF_JOKES)
-}
 
 const jokesFetchedTimeAgoText = computed(() =>
   jokesFetchedLastDate.value
@@ -25,14 +19,22 @@ const jokesFetchedTimeAgoText = computed(() =>
     : 'No Jokes yet :('
 )
 
-const onFilterUpdate = (value: boolean) => {
-  jokeType.value = value ? 'programming' : 'random'
+const defaultJokeType: JokeValidTypes = 'random'
+const activeJokeType = ref<JokeValidTypes>(defaultJokeType)
+
+const fetchJokes = async () => {
+  await getNewJokes(activeJokeType.value, appConfig.NUMBER_OF_JOKES)
+}
+
+const updateActiveJokeType = (value: boolean) => {
+  activeJokeType.value = value ? 'programming' : 'random'
 }
 
 onMounted(async () => {
-  if (newJokes.value === null || newJokes.value === undefined) {
-    await fetchJokes()
+  if (!newJokes.value) {
+    return
   }
+  await fetchJokes()
 })
 </script>
 
@@ -40,7 +42,7 @@ onMounted(async () => {
   <GetJokesToolbar
     class="mt-6"
     @onJobsFetchRequest="fetchJokes"
-    @onFilterUpdate="onFilterUpdate"
+    @onFilterUpdate="updateActiveJokeType"
   />
 
   <div class="text-center">
