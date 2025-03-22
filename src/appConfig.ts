@@ -3,6 +3,8 @@ const {
   VITE_NUMBER_OF_JOKES,
   VITE_STORE_KEY_FAVORITES,
   VITE_STORE_KEY_NEW_JOKES,
+  VITE_STORE_KEY_JOKES_LAST_FETCH_Date,
+  VITE_STORE_KEY_JOKE_TYPE,
 } = import.meta.env
 
 export const appConfig = {
@@ -11,4 +13,7 @@ export const appConfig = {
   NUMBER_OF_JOKES: VITE_NUMBER_OF_JOKES || 10,
   STORE_KEY_FAVORITES: VITE_STORE_KEY_FAVORITES || 'favorite_jokes',
   STORE_KEY_NEW_JOKES: VITE_STORE_KEY_NEW_JOKES || 'new_jokes',
+  STORE_KEY_JOKES_LAST_FETCH_DATE:
+    VITE_STORE_KEY_JOKES_LAST_FETCH_Date || 'jokes_fetched_last_date',
+  STORE_KEY_JOKE_TYPE: VITE_STORE_KEY_JOKE_TYPE || 'joke_type',
 } as const
