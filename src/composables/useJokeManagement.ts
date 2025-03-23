@@ -4,7 +4,7 @@ import type { JokeExtended } from '@/types/joke'
 import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
 import { computed, watch } from 'vue'
 
-export const useJokeCollection = () => {
+export const useJokeManagement = () => {
   const jokeStore = useJokeStore()
   const newJokes = computed<JokeExtended[] | null>(() => jokeStore.newJokes)
   const favoriteJokes = computed<JokeExtended[]>(() => jokeStore.favoriteJokes)

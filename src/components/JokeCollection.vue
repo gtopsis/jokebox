@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JokeCollectionItem from '@/components/JokeCollectionItem.vue'
-import { useJokeCollection } from '@/composables/useJokeManagement'
+import { useJokeManagement } from '@/composables/useJokeManagement'
 import type { JokeExtended } from '@/types/joke'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 const { jokes } = defineProps<Props>()
 
-const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
+const { addJokeToFavorites, removeJokeFromFavorites } = useJokeManagement()
 
 const revealPunchline = (jokeId: number) => {
   const joke = jokes.find((j) => j.id === jokeId)

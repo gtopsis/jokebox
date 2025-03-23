@@ -5,7 +5,7 @@ import ErrorAlert from '@/components/ErrorAlert.vue'
 import GetJokesToolbar from '@/components/GetJokesToolbar.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
-import { useJokeCollection } from '@/composables/useJokeManagement'
+import { useJokeManagement } from '@/composables/useJokeManagement'
 import { useNewJokeFetching } from '@/composables/useNewJokeFetching'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted } from 'vue'
@@ -21,7 +21,7 @@ const {
   loadNewJokesFromStorage,
 } = useNewJokeFetching()
 
-const { loadFavoriteJokesFromStorage } = useJokeCollection()
+const { loadFavoriteJokesFromStorage } = useJokeManagement()
 
 const jokesFetchedTimeAgoText = computed(() => {
   if (!jokesFetchedLastDate.value) {
