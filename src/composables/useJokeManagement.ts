@@ -1,8 +1,6 @@
-import { appConfig } from '@/appConfig'
 import { useJokeStore } from '@/stores/joke'
 import type { JokeExtended } from '@/types/joke'
-import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 export const useJokeManagement = () => {
   const jokeStore = useJokeStore()
@@ -18,34 +16,8 @@ export const useJokeManagement = () => {
   }
 
   const loadFavoriteJokesFromStorage = () => {
-    jokeStore.setFavoriteJokes(
-      retrieveStoredItem<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
-    )
+    jokeStore.loadFavoriteJokes()
   }
-
-  const saveNewJokes = () => {
-    storeItem(appConfig.STORE_KEY_NEW_JOKES, newJokes.value)
-  }
-
-  const saveFavoriteJokes = () => {
-    storeItem(appConfig.STORE_KEY_FAVORITES, favoriteJokes.value)
-  }
-
-  watch(
-    newJokes,
-    () => {
-      saveNewJokes()
-    },
-    { deep: true }
-  )
-
-  watch(
-    favoriteJokes,
-    () => {
-      saveFavoriteJokes()
-    },
-    { deep: true }
-  )
 
   return {
     newJokes,

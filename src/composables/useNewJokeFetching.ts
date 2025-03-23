@@ -60,9 +60,7 @@ export const useNewJokeFetching = () => {
 
   // Storage operations
   const loadNewJokesFromStorage = () => {
-    jokeStore.setNewJokes(
-      retrieveStoredItem<JokeExtended[]>(appConfig.STORE_KEY_NEW_JOKES)
-    )
+    jokeStore.loadNewJokes()
   }
 
   const loadJokeTypeFromStorage = () => {
