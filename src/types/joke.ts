@@ -1,4 +1,4 @@
-export type JokeValidTypes = 'programming' | 'random'
+export type JokeValidType = 'programming' | 'random'
 
 export interface Joke {
   id: number

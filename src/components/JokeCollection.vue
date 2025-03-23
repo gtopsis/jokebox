@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import JokeCollectionItem from '@/components/JokeCollectionItem.vue'
-import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
 import { useJokeCollection } from '@/composables/useJokeCollection'
 import type { JokeExtended } from '@/types/joke'
 
@@ -10,8 +9,7 @@ interface Props {
 
 const { jokes } = defineProps<Props>()
 
-const { toggleJokeInFavorites } = useFavoriteJokeCollection()
-const { setJokeFavoriteStatusInNewJokesCollection } = useJokeCollection()
+const { addJokeToFavorites, removeJokeFromFavorites } = useJokeCollection()
 
 const revealPunchline = (jokeId: number) => {
   const joke = jokes.find((j) => j.id === jokeId)
@@ -21,22 +19,15 @@ const revealPunchline = (jokeId: number) => {
   }
 }
 
-const toggleJokeFavoriteStatus = (jokeId: number) => {
-  const joke = jokes.find((j) => j.id === jokeId)
-  if (!joke) {
-    return
+const toggleJokeFavoriteStatus = (
+  jokeId: JokeExtended['id'],
+  oldSaveStatus: JokeExtended['saved']
+) => {
+  if (oldSaveStatus === true) {
+    removeJokeFromFavorites(jokeId)
+  } else {
+    addJokeToFavorites(jokeId)
   }
-
-  const newSaveStatus = !joke.saved
-
-  toggleJokeInFavorites(
-    {
-      ...joke,
-      saved: newSaveStatus,
-    },
-    newSaveStatus
-  )
-  setJokeFavoriteStatusInNewJokesCollection(joke.id, newSaveStatus)
 }
 </script>
 
@@ -48,7 +39,7 @@ const toggleJokeFavoriteStatus = (jokeId: number) => {
       class="mt-2"
       :joke="joke"
       @onPunchlineRevealed="revealPunchline(joke.id)"
-      @onToggleSave="toggleJokeFavoriteStatus(joke.id)"
+      @onToggleSave="toggleJokeFavoriteStatus(joke.id, joke.saved)"
     />
   </TransitionGroup>
 </template>

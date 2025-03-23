@@ -2,23 +2,28 @@
 import EmptyContent from '@/components/EmptyContent.vue'
 import FavoriteJokesCollectionStatistics from '@/components/FavoriteJokesCollectionStatistics.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
-import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
+import { useJokeCollection } from '@/composables/useJokeCollection'
 import { onMounted } from 'vue'
 
-const { favoriteJokes, loadFavoriteJokes } = useFavoriteJokeCollection()
+const { favoriteJokes, loadFavoriteJokesFromStorage, loadNewJokesFromStorage } =
+  useJokeCollection()
+const hasNoFavoriteJokes =
+  favoriteJokes.value === null || favoriteJokes.value.length === 0
 
 onMounted(async () => {
-  loadFavoriteJokes()
+  loadNewJokesFromStorage()
+  loadFavoriteJokesFromStorage()
 })
 </script>
 
 <template>
-  <FavoriteJokesCollectionStatistics class="mt-4 w-full" />
+  <FavoriteJokesCollectionStatistics
+    class="mt-4 w-full"
+    :numberOfFavorites="favoriteJokes.length"
+  />
 
   <div class="mt-6 w-full">
-    <EmptyContent
-      v-if="favoriteJokes === null || favoriteJokes.length === 0"
-      class="mt-6 w-full"
+    <EmptyContent v-if="hasNoFavoriteJokes" class="mt-6 w-full"
       >It seems that no joke have been stollen your heart so far :)
     </EmptyContent>
 
