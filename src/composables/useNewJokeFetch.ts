@@ -1,14 +1,13 @@
 import { appConfig } from '@/appConfig'
-import { useFetch } from '@/composables/useFetch'
 import { useJokeStore } from '@/stores/joke'
 import type { Joke, JokeExtended, JokeValidType } from '@/types/joke'
 import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
+import { useFetch } from './useFetch'
 
-export const useJokeCollection = () => {
+export const useNewJokeFetch = () => {
   const jokeStore = useJokeStore()
   const newJokes = computed<JokeExtended[] | null>(() => jokeStore.newJokes)
-  const favoriteJokes = computed<JokeExtended[]>(() => jokeStore.favoriteJokes)
 
   const { fetchData, isFetching, error, data } = useFetch<Joke[]>()
 
@@ -48,64 +47,25 @@ export const useJokeCollection = () => {
     storeItem(appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE, dateNow)
   }
 
-  const addJokeToFavorites = (jokeId: number) => {
-    jokeStore.markJokeAsFavorite(jokeId)
-  }
-
-  const removeJokeFromFavorites = (jokeId: number) => {
-    jokeStore.unmarkJokeFromFavorites(jokeId)
-  }
-
-  const loadFavoriteJokesFromStorage = () => {
-    jokeStore.setFavoriteJokes(
-      retrieveStoredItem<JokeExtended[]>(appConfig.STORE_KEY_FAVORITES) || []
-    )
-  }
-
   const loadNewJokesFromStorage = () => {
     jokeStore.setNewJokes(
       retrieveStoredItem<JokeExtended[]>(appConfig.STORE_KEY_NEW_JOKES)
     )
+  }
 
+  const loadJokeTypeFromStorage = () => {
     jokesFetchedLastDate.value = retrieveStoredItem<string>(
       appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE
     )
   }
 
-  const saveNewJokes = () => {
-    storeItem(appConfig.STORE_KEY_NEW_JOKES, newJokes.value)
-  }
-
-  const saveFavoriteJokes = () => {
-    storeItem(appConfig.STORE_KEY_FAVORITES, favoriteJokes.value)
-  }
-
-  watch(
-    newJokes,
-    () => {
-      saveNewJokes()
-    },
-    { deep: true }
-  )
-
-  watch(
-    favoriteJokes,
-    () => {
-      saveFavoriteJokes()
-    },
-    { deep: true }
-  )
-
   return {
-    getNewJokes,
+    newJokes,
     isLoading,
     fetchError,
-    newJokes,
-    favoriteJokes,
     jokesFetchedLastDate,
+    getNewJokes,
+    loadJokeTypeFromStorage,
     loadNewJokesFromStorage,
-    loadFavoriteJokesFromStorage,
-    addJokeToFavorites,
-    removeJokeFromFavorites,
   }
 }
