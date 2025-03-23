@@ -6,45 +6,35 @@ import GetJokesToolbar from '@/components/GetJokesToolbar.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
 import { useJokeCollection } from '@/composables/useJokeManagement'
-import { useNewJokeFetch } from '@/composables/useNewJokeFetch'
-import type { JokeValidType } from '@/types/joke'
-import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
+import { useNewJokeFetching } from '@/composables/useNewJokeFetching'
 import { formatDistanceToNow } from 'date-fns'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const {
   newJokes,
   isLoading,
   fetchError,
   jokesFetchedLastDate,
+  activeJokeType,
+  updateActiveJokeType,
   getNewJokes,
   loadNewJokesFromStorage,
-} = useNewJokeFetch()
+} = useNewJokeFetching()
 
 const { loadFavoriteJokesFromStorage } = useJokeCollection()
 
-const defaultJokeType: JokeValidType = 'random'
-const activeJokeType = ref<JokeValidType>(
-  retrieveStoredItem(appConfig.STORE_KEY_JOKE_TYPE) ?? defaultJokeType
-)
-
 const jokesFetchedTimeAgoText = computed(() => {
-  if (jokesFetchedLastDate.value) {
-    const timeFromNow = formatDistanceToNow(jokesFetchedLastDate.value)
-
-    return `${appConfig.NUMBER_OF_JOKES} jokes fetched ${timeFromNow} ago`
+  if (!jokesFetchedLastDate.value) {
+    return 'No Jokes yet :('
   }
 
-  return 'No Jokes yet :('
+  const timeFromNow = formatDistanceToNow(jokesFetchedLastDate.value)
+
+  return `${appConfig.NUMBER_OF_JOKES} jokes fetched ${timeFromNow} ago`
 })
 
 const getJokes = async () => {
-  await getNewJokes(activeJokeType.value, appConfig.NUMBER_OF_JOKES)
-}
-
-const updateActiveJokeType = (newJokeType: JokeValidType) => {
-  activeJokeType.value = newJokeType
-  storeItem(appConfig.STORE_KEY_JOKE_TYPE, activeJokeType.value)
+  await getNewJokes(appConfig.NUMBER_OF_JOKES)
 }
 
 const hasNoJokes = computed(
