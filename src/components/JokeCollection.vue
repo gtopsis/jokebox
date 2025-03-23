@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JokeCollectionItem from '@/components/JokeCollectionItem.vue'
-import { useJokeCollection } from '@/composables/useJokeCollection'
+import { useJokeCollection } from '@/composables/useJokeManagement'
 import type { JokeExtended } from '@/types/joke'
 
 interface Props {

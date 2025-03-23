@@ -5,21 +5,23 @@ import ErrorAlert from '@/components/ErrorAlert.vue'
 import GetJokesToolbar from '@/components/GetJokesToolbar.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
 import TheCardSkeleton from '@/components/TheCardSkeleton.vue'
-import { useJokeCollection } from '@/composables/useJokeCollection'
+import { useJokeCollection } from '@/composables/useJokeManagement'
+import { useNewJokeFetch } from '@/composables/useNewJokeFetch'
 import type { JokeValidType } from '@/types/joke'
 import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
 import { formatDistanceToNow } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 
 const {
+  newJokes,
   isLoading,
   fetchError,
-  newJokes,
   jokesFetchedLastDate,
   getNewJokes,
   loadNewJokesFromStorage,
-  loadFavoriteJokesFromStorage,
-} = useJokeCollection()
+} = useNewJokeFetch()
+
+const { loadFavoriteJokesFromStorage } = useJokeCollection()
 
 const defaultJokeType: JokeValidType = 'random'
 const activeJokeType = ref<JokeValidType>(

@@ -2,7 +2,7 @@
 import EmptyContent from '@/components/EmptyContent.vue'
 import FavoriteJokesCollectionStatistics from '@/components/FavoriteJokesCollectionStatistics.vue'
 import JokeCollection from '@/components/JokeCollection.vue'
-import { useJokeCollection } from '@/composables/useJokeCollection'
+import { useJokeCollection } from '@/composables/useJokeManagement'
 import { onMounted } from 'vue'
 
 const { favoriteJokes, loadFavoriteJokesFromStorage, loadNewJokesFromStorage } =
