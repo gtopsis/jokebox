@@ -18,10 +18,10 @@ const {
   activeJokeType,
   updateActiveJokeType,
   getNewJokes,
-  loadNewJokesFromStorage,
 } = useNewJokeFetching()
 
-const { loadFavoriteJokesFromStorage } = useJokeManagement()
+const { loadNewJokesFromStorage, loadFavoriteJokesFromStorage } =
+  useJokeManagement()
 
 const jokesFetchedTimeAgoText = computed(() => {
   if (!jokesFetchedLastDate.value) {

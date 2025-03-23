@@ -59,10 +59,6 @@ export const useNewJokeFetching = () => {
   }
 
   // Storage operations
-  const loadNewJokesFromStorage = () => {
-    jokeStore.loadNewJokes()
-  }
-
   const loadJokeTypeFromStorage = () => {
     jokesFetchedLastDate.value = retrieveStoredItem<string>(
       appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE
@@ -78,6 +74,5 @@ export const useNewJokeFetching = () => {
     updateActiveJokeType,
     getNewJokes,
     loadJokeTypeFromStorage,
-    loadNewJokesFromStorage,
   }
 }

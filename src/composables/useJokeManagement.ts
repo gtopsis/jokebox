@@ -15,6 +15,10 @@ export const useJokeManagement = () => {
     jokeStore.unmarkJokeFromFavorites(jokeId)
   }
 
+  const loadNewJokesFromStorage = () => {
+    jokeStore.loadNewJokes()
+  }
+
   const loadFavoriteJokesFromStorage = () => {
     jokeStore.loadFavoriteJokes()
   }
@@ -22,8 +26,9 @@ export const useJokeManagement = () => {
   return {
     newJokes,
     favoriteJokes,
-    loadFavoriteJokesFromStorage,
     addJokeToFavorites,
     removeJokeFromFavorites,
+    loadNewJokesFromStorage,
+    loadFavoriteJokesFromStorage,
   }
 }
