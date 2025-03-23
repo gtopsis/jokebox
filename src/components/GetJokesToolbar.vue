@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import BaseButton from '@/components/lib/BaseButton.vue'
 import BaseToggle from '@/components/lib/BaseToggleSwitch.vue'
-import { ref } from 'vue'
+import type { JokeValidType } from '@/types/joke'
+import { computed, ref } from 'vue'
+
+interface Props {
+  currentJokeType: JokeValidType
+}
+
+const defaultJokeType: JokeValidType = 'random'
+const { currentJokeType = defaultJokeType } = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'onJobsFetchRequest', event: Event): void
-  (e: 'onFilterUpdate', value: boolean): void
+  (e: 'onJokeTypeUpdate', jokeType: JokeValidType): void
 }>()
 
+const inputToggleSwitchValue = computed<boolean>(
+  () => currentJokeType !== defaultJokeType
+)
+
 const inputToggleSwitchLabel = ref('Programming jokes only')
-const inputToggleSwitchValue = ref(false)
 
 const onToggleChanged = (newValue: boolean | undefined) => {
   if (newValue !== undefined) {
-    emit('onFilterUpdate', newValue)
+    emit('onJokeTypeUpdate', newValue ? 'programming' : 'random')
   }
 }
 
