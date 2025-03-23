@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { useFavoriteJokeCollection } from '@/composables/useFavoriteJokeCollection'
+interface Props {
+  numberOfFavorites: number
+}
 
-const { favoriteJokes } = useFavoriteJokeCollection()
+defineProps<Props>()
 </script>
 
 <template>
@@ -11,7 +13,7 @@ const { favoriteJokes } = useFavoriteJokeCollection()
         Total:
       </strong>
       <span class="text-text-secondary text-md mx-1 mt-4 mb-0 block">
-        {{ favoriteJokes.length }} jokes
+        {{ numberOfFavorites }} jokes
       </span>
     </div>
   </div>
