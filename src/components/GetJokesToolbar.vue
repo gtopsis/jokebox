@@ -2,7 +2,7 @@
 import BaseButton from '@/components/lib/BaseButton.vue'
 import BaseToggle from '@/components/lib/BaseToggleSwitch.vue'
 import type { JokeValidType } from '@/types/joke'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 interface Props {
   currentJokeType: JokeValidType
@@ -16,21 +16,20 @@ const emit = defineEmits<{
   (e: 'onJokeTypeUpdate', jokeType: JokeValidType): void
 }>()
 
+const inputToggleSwitchLabel = 'Programming jokes only'
+const inputToggleSwitchColors = {
+  thumb: 'var(--color-accent)',
+  border: 'var(--color-accent)',
+}
+
 const inputToggleSwitchValue = computed<boolean>(
   () => currentJokeType !== defaultJokeType
 )
-
-const inputToggleSwitchLabel = ref('Programming jokes only')
 
 const onToggleChanged = (newValue: boolean | undefined) => {
   if (newValue !== undefined) {
     emit('onJokeTypeUpdate', newValue ? 'programming' : 'random')
   }
-}
-
-const inputToggleSwitchColors = {
-  thumb: 'var(--color-accent)',
-  border: 'var(--color-accent)',
 }
 
 const fetchJokesColors = { background: 'var(--color-accent-dark)' }

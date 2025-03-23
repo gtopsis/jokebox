@@ -105,7 +105,6 @@ export const useJokeCollection = () => {
     jokesFetchedLastDate,
     loadNewJokesFromStorage,
     loadFavoriteJokesFromStorage,
-    saveNewJokes,
     addJokeToFavorites,
     removeJokeFromFavorites,
   }
