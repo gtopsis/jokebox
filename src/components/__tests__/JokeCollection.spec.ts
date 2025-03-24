@@ -1,7 +1,8 @@
 import type { JokeExtended } from '@/types/joke'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/vue'
-import { describe, expect, it } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it } from 'vitest'
 import JokeCollection from '../JokeCollection.vue'
 
 describe('JokeCollection', () => {
@@ -9,6 +10,10 @@ describe('JokeCollection', () => {
     { id: 1, punchline: 'Punchline 1', setup: 'Setup 1', type: 'general' },
     { id: 2, punchline: 'Punchline 2', setup: 'Setup 2', type: 'general' },
   ]
+
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
 
   it('should render joke items', () => {
     render(JokeCollection, { props: { jokes } })
