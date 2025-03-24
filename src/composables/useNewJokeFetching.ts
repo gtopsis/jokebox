@@ -13,7 +13,9 @@ export const useNewJokeFetching = () => {
   const activeJokeType = ref<JokeValidType>(
     retrieveStoredItem(appConfig.STORE_KEY_JOKE_TYPE) ?? defaultJokeType
   )
-  const jokesFetchedLastDate = ref<string | null>(null)
+  const jokesFetchedLastDate = ref<string | null>(
+    retrieveStoredItem(appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE) ?? null
+  )
 
   const newJokes = computed<JokeExtended[] | null>(() => jokeStore.newJokes)
   const isLoading = computed(() => isFetching.value)
