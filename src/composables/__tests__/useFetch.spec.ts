@@ -34,37 +34,28 @@ describe('useFetch', () => {
     vi.restoreAllMocks()
   })
 
-  it('should fetch 10 random jokes when when a request for 10 jokes of type random is made to Jokes API', async () => {
-    const { fetchData, data: jokes } = useFetch()
-    const apiUrl = `${appConfig.API_BASE_URL}/random/10`
-    const mockedFetch = createFetchMockWithResolvedValue({
-      ok: true,
-      json: async () => createJokeCollection('random', 10),
-    } as Response)
+  it.each`
+    type
+    ${'random'}
+    ${'programming'}
+  `(
+    'should fetch 10 $type jokes when when a request for 10 jokes of type $type is made to Jokes API',
+    async ({ type }) => {
+      const { fetchData, data: jokes } = useFetch()
+      const apiUrl = `${appConfig.API_BASE_URL}/${type}/ten`
+      const mockedFetch = createFetchMockWithResolvedValue({
+        ok: true,
+        json: async () => createJokeCollection(type, 10),
+      } as Response)
 
-    await fetchData(apiUrl)
+      await fetchData(apiUrl)
 
-    expect(mockedFetch).toHaveBeenCalledExactlyOnceWith(apiUrl, {
-      method: 'GET',
-    })
-    expect(jokes.value).toEqual(createJokeCollection('random', 10))
-  })
-
-  it('should fetch 10 programming jokes when when a request for 10 jokes of type programming is made to Jokes API', async () => {
-    const { fetchData, data: jokes } = useFetch()
-    const apiUrl = `${appConfig.API_BASE_URL}/programming/ten`
-    const mockedFetch = createFetchMockWithResolvedValue({
-      ok: true,
-      json: async () => createJokeCollection('programming', 10),
-    } as Response)
-
-    await fetchData(apiUrl)
-
-    expect(mockedFetch).toHaveBeenCalledExactlyOnceWith(apiUrl, {
-      method: 'GET',
-    })
-    expect(jokes.value).toEqual(createJokeCollection('programming', 10))
-  })
+      expect(mockedFetch).toHaveBeenCalledExactlyOnceWith(apiUrl, {
+        method: 'GET',
+      })
+      expect(jokes.value).toEqual(createJokeCollection(type, 10))
+    }
+  )
 
   it('should set error when a request to fetch jokes failed', async () => {
     const { fetchData, error } = useFetch()
