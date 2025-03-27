@@ -65,12 +65,12 @@ describe('useNewJokeFetching', () => {
     vi.clearAllMocks()
   })
 
-  it('should fetch 1 new random joke and store the timestamp to local storage', async () => {
+  it('should get 1 new random joke and store the timestamp to local storage', async () => {
     const mockedUseFetch = vi.mocked(useFetch) as Mock
     mockedUseFetch.mockReturnValue({
       fetchData: mockFetchData,
       data: ref(createJokeCollection('random', 1)),
-      isFetching: false,
+      isFetching: ref(false),
       error: null,
     })
     const spySetNewJokes = vi.spyOn(useJokeStore(), 'setNewJokes')
@@ -99,12 +99,42 @@ describe('useNewJokeFetching', () => {
     )
   })
 
+  it('should not get new jokes and return custom error when request to API returns error', async () => {
+    const mockedUseFetch = vi.mocked(useFetch) as Mock
+    mockedUseFetch.mockReturnValue({
+      fetchData: mockFetchData,
+      data: ref(null),
+      isFetching: ref(false),
+      error: ref(new Error(`Error: Failed to fetch data. Status: 500`)),
+    })
+    const spySetNewJokes = vi.spyOn(useJokeStore(), 'setNewJokes')
+    const spyLocalStorage = vi.spyOn(lc, 'storeItem')
+
+    const { getNewJokes, jokesFetchedLastDate, fetchError } =
+      useNewJokeFetching()
+    await getNewJokes(1)
+
+    expect(mockFetchData).toHaveBeenCalled()
+    expect(spySetNewJokes).toHaveBeenCalledTimes(1)
+    expect(spySetNewJokes).toHaveBeenCalledWith([])
+    expect(fetchError.value).toBeInstanceOf(Error)
+    expect(fetchError.value?.message).toBe(
+      'Failed to fetch new jokes. Please try again!'
+    )
+
+    expect(jokesFetchedLastDate.value).toBe('2025-03-26T10:00:00.000Z')
+    expect(spyLocalStorage).toHaveBeenCalledWith(
+      appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE,
+      '2025-03-26T10:00:00.000Z'
+    )
+  })
+
   it("should update the current/active joke type to 'programming'", async () => {
     const mockedUseFetch = vi.mocked(useFetch) as Mock
     mockedUseFetch.mockReturnValue({
       fetchData: mockFetchData,
       data: [],
-      isFetching: false,
+      isFetching: ref(false),
       error: null,
     })
     const spyLocalStorage = vi.spyOn(lc, 'storeItem')
