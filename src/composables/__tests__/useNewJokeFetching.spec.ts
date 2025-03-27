@@ -4,7 +4,7 @@ import { useNewJokeFetching } from '@/composables/useNewJokeFetching'
 import { useJokeStore } from '@/stores/joke'
 import type { Joke, JokeValidType } from '@/types/joke'
 import { createTestingPinia } from '@pinia/testing'
-import { setActivePinia, type StateTree } from 'pinia'
+import { setActivePinia } from 'pinia'
 import {
   afterAll,
   afterEach,
@@ -47,14 +47,13 @@ describe('useNewJokeFetching', () => {
     localStorage.clear()
     mockFetchData = vi.fn()
 
-    const initialState: StateTree = {
-      joke: {
-        newJokes: [],
-        favoriteJokes: [],
-      },
+    const initialState = {
+      newJokes: [],
+      favoriteJokes: [],
     }
+
     const testingPinia = createTestingPinia({
-      initialState,
+      initialState: { joke: initialState },
       createSpy: vi.fn,
       stubActions: true,
     })
@@ -98,5 +97,25 @@ describe('useNewJokeFetching', () => {
       appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE,
       '2025-03-26T10:00:00.000Z'
     )
+  })
+
+  it("should update the current/active joke type to 'programming'", async () => {
+    const mockedUseFetch = vi.mocked(useFetch) as Mock
+    mockedUseFetch.mockReturnValue({
+      fetchData: mockFetchData,
+      data: [],
+      isFetching: false,
+      error: null,
+    })
+    const spyLocalStorage = vi.spyOn(lc, 'storeItem')
+
+    const { updateActiveJokeType, activeJokeType } = useNewJokeFetching()
+    await updateActiveJokeType('programming')
+
+    expect(spyLocalStorage).toHaveBeenCalledWith(
+      appConfig.STORE_KEY_JOKE_TYPE,
+      'programming'
+    )
+    expect(activeJokeType.value).toBe('programming')
   })
 })
