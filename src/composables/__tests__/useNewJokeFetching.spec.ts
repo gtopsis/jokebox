@@ -5,6 +5,7 @@ import { useJokeStore } from '@/stores/joke'
 import type { Joke, JokeValidType } from '@/types/joke'
 import { createTestingPinia } from '@pinia/testing'
 import { setActivePinia } from 'pinia'
+
 import {
   afterAll,
   afterEach,
@@ -21,17 +22,19 @@ import * as lc from '../../utils/localStorage'
 
 vi.mock('../../composables/useFetch')
 
-const createJokeCollection = (type: JokeValidType, length: number): Joke[] => {
-  return Array.from({ length }, (_, index) => ({
+const createJokeCollection = (type: JokeValidType, length: number): Joke[] =>
+  Array.from({ length }, (_, index) => ({
     id: index,
     type,
     setup: `Joke setup ${index}`,
     punchline: `Joke punchline ${index}`,
   }))
-}
 
 describe('useNewJokeFetching', () => {
   let mockFetchData: ReturnType<typeof vi.fn>
+  let mockedUseFetch: Mock
+  let spySetNewJokes: ReturnType<typeof vi.spyOn>
+  let spyLocalStorage: ReturnType<typeof vi.spyOn>
 
   beforeAll(() => {
     vi.useFakeTimers()
@@ -45,7 +48,6 @@ describe('useNewJokeFetching', () => {
 
   beforeEach(() => {
     localStorage.clear()
-    mockFetchData = vi.fn()
 
     const initialState = {
       newJokes: [],
@@ -58,6 +60,10 @@ describe('useNewJokeFetching', () => {
       stubActions: true,
     })
     setActivePinia(testingPinia)
+    mockFetchData = vi.fn()
+    mockedUseFetch = vi.mocked(useFetch) as Mock
+    spySetNewJokes = vi.spyOn(useJokeStore(), 'setNewJokes')
+    spyLocalStorage = vi.spyOn(lc, 'storeItem')
   })
 
   afterEach(() => {
@@ -65,16 +71,25 @@ describe('useNewJokeFetching', () => {
     vi.clearAllMocks()
   })
 
-  it('should get 1 new random joke and store the timestamp to local storage', async () => {
-    const mockedUseFetch = vi.mocked(useFetch) as Mock
+  const setupMockUseFetch = ({
+    data = null,
+    error = null,
+  }: Partial<{
+    data: Joke[] | null
+    error: Error | null
+  }> = {}) => {
     mockedUseFetch.mockReturnValue({
       fetchData: mockFetchData,
-      data: ref(createJokeCollection('random', 1)),
+      data: ref(data),
       isFetching: ref(false),
-      error: null,
+      error: ref(error),
     })
-    const spySetNewJokes = vi.spyOn(useJokeStore(), 'setNewJokes')
-    const spyLocalStorage = vi.spyOn(lc, 'storeItem')
+  }
+
+  const expectedTimestamp = '2025-03-26T10:00:00.000Z'
+
+  it('should get 1 new random joke and store the timestamp to local storage', async () => {
+    setupMockUseFetch({ data: createJokeCollection('random', 1) })
 
     const { getNewJokes, jokesFetchedLastDate } = useNewJokeFetching()
     await getNewJokes(1)
@@ -92,23 +107,18 @@ describe('useNewJokeFetching', () => {
       },
     ])
 
-    expect(jokesFetchedLastDate.value).toBe('2025-03-26T10:00:00.000Z')
+    expect(jokesFetchedLastDate.value).toBe(expectedTimestamp)
     expect(spyLocalStorage).toHaveBeenCalledWith(
       appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE,
-      '2025-03-26T10:00:00.000Z'
+      expectedTimestamp
     )
   })
 
   it('should not get new jokes and return custom error when request to API returns error', async () => {
-    const mockedUseFetch = vi.mocked(useFetch) as Mock
-    mockedUseFetch.mockReturnValue({
-      fetchData: mockFetchData,
-      data: ref(null),
-      isFetching: ref(false),
-      error: ref(new Error(`Error: Failed to fetch data. Status: 500`)),
+    setupMockUseFetch({
+      data: null,
+      error: new Error('Error: Failed to fetch data. Status: 500'),
     })
-    const spySetNewJokes = vi.spyOn(useJokeStore(), 'setNewJokes')
-    const spyLocalStorage = vi.spyOn(lc, 'storeItem')
 
     const { getNewJokes, jokesFetchedLastDate, fetchError } =
       useNewJokeFetching()
@@ -122,22 +132,15 @@ describe('useNewJokeFetching', () => {
       'Failed to fetch new jokes. Please try again!'
     )
 
-    expect(jokesFetchedLastDate.value).toBe('2025-03-26T10:00:00.000Z')
+    expect(jokesFetchedLastDate.value).toBe(expectedTimestamp)
     expect(spyLocalStorage).toHaveBeenCalledWith(
       appConfig.STORE_KEY_JOKES_LAST_FETCH_DATE,
-      '2025-03-26T10:00:00.000Z'
+      expectedTimestamp
     )
   })
 
   it("should update the current/active joke type to 'programming'", async () => {
-    const mockedUseFetch = vi.mocked(useFetch) as Mock
-    mockedUseFetch.mockReturnValue({
-      fetchData: mockFetchData,
-      data: [],
-      isFetching: ref(false),
-      error: null,
-    })
-    const spyLocalStorage = vi.spyOn(lc, 'storeItem')
+    setupMockUseFetch()
 
     const { updateActiveJokeType, activeJokeType } = useNewJokeFetching()
     await updateActiveJokeType('programming')
