@@ -2,19 +2,11 @@ import { appConfig } from '@/appConfig'
 import type { JokeExtended } from '@/types/joke'
 import { retrieveStoredItem, storeItem } from '@/utils/localStorage'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useJokeStore = defineStore('joke', () => {
-  const newJokes = ref<JokeExtended[] | null>([])
+  const newJokes = ref<JokeExtended[] | null>(null)
   const favoriteJokes = ref<JokeExtended[]>([])
-
-  const saveNewJokes = () => {
-    storeItem(appConfig.STORE_KEY_NEW_JOKES, newJokes.value)
-  }
-
-  const saveFavoriteJokes = () => {
-    storeItem(appConfig.STORE_KEY_FAVORITES, favoriteJokes.value)
-  }
 
   const loadNewJokes = () => {
     newJokes.value = retrieveStoredItem<JokeExtended[]>(
@@ -29,12 +21,10 @@ export const useJokeStore = defineStore('joke', () => {
 
   const setNewJokes = (jokes: JokeExtended[] | null) => {
     newJokes.value = jokes
-    saveNewJokes()
   }
 
   const setFavoriteJokes = (jokes: JokeExtended[]) => {
     favoriteJokes.value = jokes
-    saveFavoriteJokes()
   }
 
   const markJokeAsFavorite = (jokeId: JokeExtended['id']) => {
@@ -43,8 +33,6 @@ export const useJokeStore = defineStore('joke', () => {
       joke.saved = true
       favoriteJokes.value.push({ ...joke })
     }
-    saveFavoriteJokes()
-    saveNewJokes()
   }
 
   const unmarkJokeFromFavorites = (jokeId: JokeExtended['id']) => {
@@ -55,9 +43,23 @@ export const useJokeStore = defineStore('joke', () => {
     if (found) {
       found.saved = false
     }
-    saveFavoriteJokes()
-    saveNewJokes()
   }
+
+  watch(
+    newJokes,
+    (jokes: JokeExtended[] | null) => {
+      storeItem(appConfig.STORE_KEY_NEW_JOKES, jokes)
+    },
+    { deep: true }
+  )
+
+  watch(
+    favoriteJokes,
+    (jokes: JokeExtended[]) => {
+      storeItem(appConfig.STORE_KEY_FAVORITES, jokes)
+    },
+    { deep: true }
+  )
 
   return {
     newJokes,
